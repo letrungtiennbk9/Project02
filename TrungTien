@@ -1,0 +1,149 @@
+.data
+	Tien_kqTinhKCNgay: .word 0
+	Tien_array: .space 48
+	Tien_ret: .byte 0
+	Tien_kqNamNhuan: .word 0
+	year: .word 2019
+	month: .word 3
+.text
+	jal LaNamNhuan
+	lw $a0 Tien_kqNamNhuan
+	li $v0 1
+	syscall
+
+	jal Tien_TinhKCNgay
+	lw $a0 Tien_kqTinhKCNgay
+	li $v0 1
+	syscall
+
+	li $v0 10
+	syscall
+
+Tien_TinhKCNgay:
+	#Dau thu tuc
+	addi $sp $sp -32
+	sw $ra ($sp)
+	sw $t1 4($sp)
+	sw $t2 8($sp)
+	sw $t3 12($sp)
+	sw $t4 16($sp)
+	sw $t5 20($sp)
+	sw $a1 24($sp)
+	
+	#Than Thu tuc
+	la $a1 Tien_array
+	
+	#So ngay cua cac thang
+	addi $t1 $t1 31
+	addi $t2 $t2 30
+	addi $t3 $t3 29
+	addi $t4 $t4 28
+
+	#Luu vao trong mang
+	sw $t1 ($a1)
+	sw $t4 4($a1)
+	sw $t3 8($a1)
+	sw $t2 12($a1)
+	sw $t1 16($a1)
+	sw $t2 20($a1)
+	sw $t1 24($a1)
+	sw $t1 28($a1)
+	sw $t2 32($a1)
+	sw $t1 36($a1)
+	sw $t2 40($a1)
+	sw $t1 44($a1)
+	##Xu ly nam nhuan:
+	jal LaNamNhuan
+	lw $t5 Tien_kqNamNhuan	#Bien tam de lam phep so sanh
+	bne $0 $t5 Add29Ngay
+	beq $0 $t5 XuLyXongNamNhuan
+		Add29Ngay:
+			sw $t3 4($a1)
+		XuLyXongNamNhuan:
+			#Khong can lam gi ca
+
+	##Bat dau tinh toan:
+	add $t1 $0 $0 # index = 0
+	lw $t3 Tien_kqTinhKCNgay	# nNgay = 0
+	lw $t2 month
+	sub $t2 $t2 1	# Vi index chay tu 0 nen can giam month xuong 1	
+	
+	KCNgay_DKLap: 	
+	slt $t0 $t1 $t2
+	bne $t0 $0 KCNgay_Loop
+	beq $t0 $0 KCNgay_ExitLoop
+		KCNgay_Loop:
+			##t4 = t1 * 4
+			li $t4 4
+			mult $t1 $t4
+			mflo $t4
+
+			##a1 = a1 + t4 hay a1 = a1 + [t1 * 4]
+			##muc dich de tim array[i*4]
+			add $a1 $a1 $t4
+			lw $t5 ($a1)
+			add $t3 $t3 $t5	#nNgay += array[i*4]
+			addi $t1 $t1 1	#i += 1
+
+			j KCNgay_DKLap
+		
+		KCNgay_ExitLoop:
+			#Luu lai ket qua tu thanh ghi vao bien
+			sw $t3 Tien_kqTinhKCNgay
+
+	#Cuoi thu tuc
+	##Restore
+	lw $ra ($sp)
+	lw $t1 4($sp)
+	lw $t2 8($sp)
+	lw $t3 12($sp)
+	lw $t4 16($sp)
+	lw $t5 20($sp)
+	lw $a1 24($sp)
+	addi $sp $sp 32
+	##Nhay ve
+	jr $ra
+
+LaNamNhuan:
+	addi $sp $sp -20
+	sw $ra ($sp)
+	sw $s1 4($sp)
+	sw $s2 8($sp)
+	sw $t1 12($sp)
+	sw $t2 16($sp)
+
+	#Than thu tuc
+	lw $s1 year
+
+	li $t1 4	#Khoi tao so 4 de chia
+	div $s1 $t1	#year/4
+	mfhi $t2 #so du
+
+	beq $t2 $0 TiepTucKT
+	bne $t2 $0 ReturnFalse
+		TiepTucKT:
+			li $t1 100
+			div $s1 $t1	#year/100
+			mfhi $t2	#Lay so du
+
+			beq $t2 $0 ReturnTrue
+			bne $t2 $0 ReturnFalse
+				ReturnTrue:
+					lw $s2 Tien_kqNamNhuan
+					add $s2 $s2 1
+					sw $s2 Tien_kqNamNhuan	
+				ReturnFalse:
+					#Khong can lam gi ca vi da khoi gan kqNamNhuan = 0
+	#Duoi thu tuc
+	##Restore
+	lw $ra ($sp)
+	lw $s1 4($sp)
+	lw $s2 8($sp)
+	lw $t1 12($sp)
+	lw $t2 16($sp)
+	addi $sp $sp 20
+	##Nhay ve
+	jr $ra
+
+
+##################LAM CHO XONG HAM TINH KC NGAY VA LAM HAM XAC DINH NGAY THU MAY TRONG TUAN###############

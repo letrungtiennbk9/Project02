@@ -1,0 +1,51 @@
+.data
+	Tien_array: .space 48
+	Tien_ret: .byte 0
+	Tien_kqNamNhuan: .word 0
+	year: .word 2019
+	month: .word 3
+.text
+	la $a1 Tien_array
+	
+	#So ngay cua cac thang
+	addi $t1 $t1 31
+	addi $t2 $t2 30
+	addi $t3 $t3 29
+	addi $t4 $t4 28
+
+	#Luu vao trong mang
+	sw $t1 ($a1)
+	sw $t4 4($a1)
+	sw $t1 8($a1)
+	sw $t2 12($a1)
+	sw $t1 16($a1)
+	sw $t2 20($a1)
+	sw $t1 24($a1)
+	sw $t1 28($a1)
+	sw $t2 32($a1)
+	sw $t1 36($a1)
+	sw $t2 40($a1)
+	sw $t1 44($a1)
+
+	add $t1 $0 $0 # index = 0
+	add $t3 $0 $0 # nNgay = 0	
+	lw $t2 month
+	sub $t2 $t2 1	# Vi index chay tu 0 nen can giam month xuong 1	
+	
+	KCNgay_DKLap: 	
+	slt $t0 $t1 $t2
+	bne $t0 $0 KCNgay_Loop
+		KCNgay_Loop:
+		##t4 = t1 * 4
+		li $t4 4
+		mult $t1 $t4
+		mflo $t4
+
+		##a1 = a1 + t4 hay a1 = a1 + [t1 * 4]
+		##muc dich de tim array[i*4]
+		add $a1 $a1 $t4
+		lw $t5 ($a1)
+		add $t3 $t3 $t5	#nNgay += array[i*4]
+		addi $t1 $t1 1	#i += 1
+
+		j KCNgay_DKLap
