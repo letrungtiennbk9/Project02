@@ -1,24 +1,25 @@
 .data
-	Thong_chunhat: .asciiz "La ngay chu nhat"
-	Thong_thuhai: .asciiz "La ngay thu hai"
-	Thong_thuba: .asciiz "La ngay thu ba"
-	Thong_thutu: .asciiz "La ngay thu tu"
-	Thong_thunam: .asciiz "La ngay thu nam"
-	Thong_thusau: .asciiz "La ngay thu sau"
-	Thong_thubay: .asciiz "La ngay thu bay"
+	Thong_sun: .asciiz "Sun"
+	Thong_mon: .asciiz "Mon"
+	Thong_tues: .asciiz "Tues"
+	Thong_wed: .asciiz "Wed"
+	Thong_thurs: .asciiz "Thurs"
+	Thong_fri: .asciiz "Fri"
+	Thong_sat: .asciiz "Sat"
 	
 .text
-.globl Thong_NgayThuMayTrongTuan
+.globl Thong_Weekday
 
 # cho co nhap ngay roi edit ghi chu tham so truyen vao nhe
-# ham khong co gia tri tra ve, khi goi ham se xuat ra ket qua chuoi ngay input la ngay thu may trong tuan
+# ham tra ve chuoi ket qua la ngay thu may trong tuan cua ngay duoc truyen vao
+#ket qua tra ve luu trong thanh ghi $v0
 
-Thong_NgayThuMayTrongTuan:
+Thong_Weekday:
 	#Dau thu tuc
 	addi $sp, $sp, -40
 	#backup
 	sw $ra,($sp)
-	sw $t0,4($sp)
+	sw $t0, 4($sp)
 	sw $t1, 8($sp)
 	sw $s1, 12($sp)
 	sw $s2, 16($sp)
@@ -30,8 +31,78 @@ Thong_NgayThuMayTrongTuan:
 	
 	#Than thu tuc
 	
-	jal Thong_SoNgayTu111
-	move $t0, $v0
+	move $s1, $a0
+	move $s2, $a1
+	move $s3, $a2
+	#kiem tra thang < 3
+	li $t1, 3
+	slt $t2,$s2,$t1
+	bne $t2,$0,Thong_TangThang_GiamNam
+	j Thong_TiepTucNeuKhongTang
+	#Truong hop thang < 3
+Thong_TangThang_GiamNam:
+	li $t1, 1
+	sub $s3, $s3, $t1
+	
+	li $t1, 12
+	add $s2, $s2, $t1
+	
+Thong_TiepTucNeuKhongTang:
+	li $t0, 0
+	
+	li $t1, 365
+	mult $t1, $s3
+	mflo $s4
+	
+	# s = s + kq1
+	add $t0, $t0, $s4
+	
+	#year /4
+	li $t1, 4
+	div $s3, $t1
+	mflo $s4
+	
+	# s = s + kq2
+	add $t0, $t0, $s4
+	
+	#year / 100
+	li $t1, 100
+	div $s3, $t1
+	mflo $s4
+	
+	# s = s + kq3
+	sub $t0, $t0, $s4
+	
+	#year / 400
+	li $t1, 400
+	div $s3, $t1
+	mflo $s4
+	
+	# s = s + kq3
+	add $t0, $t0, $s4
+	
+	
+	# s = s + (153 * month - 457) / 5
+	li $t1, 153
+	mult $t1, $s2
+	mflo $s4
+	
+	li $t1, 457
+	sub $s4, $s4, $t1
+	
+	li $t1, 5
+	div $s4, $t1
+	mflo $s4
+	
+	# s = s + kq4
+	add $t0, $t0, $s4
+	
+	# s = s + day
+	add $t0, $t0, $s1
+	
+	li $t1, 306
+	#s = s - 306
+	sub $t0, $t0, $t1 
 	
 	#chia lay du cho 7
 	li $t1, 7
@@ -49,48 +120,43 @@ Thong_NgayThuMayTrongTuan:
 	beq $t0,6,Thong_ThuBay
 	
 Thong_ChuNhat:
-	li $v0,4
-	la $a0,Thong_chunhat
-	syscall
-	j Thong_KetThuc
+	la $a0, Thong_sun
+	move $v0, $a0
+	j Thong_KetThucHam
 
 Thong_ThuHai:
-	li $v0,4
-	la $a0,Thong_thuhai
-	syscall
-	j Thong_KetThuc
-
+	la $a0,Thong_mon
+	move $v0, $a0
+	j Thong_KetThucHam
+	
 Thong_ThuBa:	
-	li $v0,4
-	la $a0,Thong_thuba
-	syscall
-	j Thong_KetThuc
+	la $a0,Thong_tues
+	move $v0, $a0
+	j Thong_KetThucHam
 
 Thong_ThuTu:	
 	li $v0,4
-	la $a0,Thong_thutu
+	la $a0,Thong_wed
 	syscall
-	j Thong_KetThuc
+	j Thong_KetThucHam
 
 Thong_ThuNam:
-	li $v0,4
-	la $a0,Thong_thunam
-	syscall
-	j Thong_KetThuc
+	la $a0,Thong_thurs
+	move $v0, $a0
+	j Thong_KetThucHam
 	
 Thong_ThuSau:
-	li $v0,4
-	la $a0,Thong_thusau
-	syscall
-	j Thong_KetThuc
+	la $a0,Thong_fri
+	move $v0, $a0
+	j Thong_KetThucHam
 
 Thong_ThuBay:
-	li $v0,4
-	la $a0,Thong_thubay
-	syscall
-	j Thong_KetThuc
+	la $a0,Thong_sat
+	move $v0, $a0
+	j Thong_KetThucHam
 
-#Cuoi thu tuc
+Thong_KetThucHam:	
+	#Cuoi thu tuc
 	#restore thanh ghi
 	lw $ra,($sp)
 	lw $t0,4($sp)
@@ -106,7 +172,3 @@ Thong_ThuBay:
 	addi $sp,$sp,40
 	#tra ve
 	jr $ra
-
-Thong_KetThuc:
-	li, $v0, 10
-	syscall

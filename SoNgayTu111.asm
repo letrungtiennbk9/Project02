@@ -4,6 +4,7 @@
 # cho co nhap ngay roi edit ghi chu tham so truyen vao nhe
 # ham tra ve gia tri ngay thu n tu ngay 1/1/1 vao thanh ghi $v0
 # chuc nang: cho biet ngay vua nhap (tham so truyen vao) la ngay thu may ke tu ngay 1/1/1
+
 Thong_SoNgayTu111:
     	#Dau thu tuc
 	addi $sp, $sp, -40
