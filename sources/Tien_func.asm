@@ -26,7 +26,7 @@ NhapXuatFile:
 	li   $v0, 14
 	move $a0, $s1     
 	la   $a1, buffer	#Doc 4 byte vao a1   
-	li   $a2, 4	    
+	li   $a2, 4	    	#Kich thuoc buffer là 4 byte
 	syscall
 	move $s2 $a1		#Luu vao s2, s2 = day
 
@@ -47,7 +47,13 @@ NhapXuatFile:
 	move $s4 $a1		#Luu vao s4, s4 = year
 
 	##Xu ly
-	###Nhap ngay
+	move $a0 $s2
+	move $a1 $s3
+	move $a2 $s4
+	jal NhapNgay_ThamSo
+	move $s5 $v0		#Luu ket qua doc duoc vao s5, s5 = ddmmyyyy
+
+	
 	
 
 	#Dong file
@@ -108,3 +114,16 @@ LaNamNhuan:
 	addi $sp $sp 16
 
 	jr $ra
+
+
+
+#Ham NhapNgay_ThamSo
+#Chuc nang: Tuong tu nhu ham nhap ngay, tuy nhien thay vi nhap du lieu bang tay thi ham nay se truyen
+#	    tham so cho ham.
+#Tham so:
+## a0: ngay (int)
+## a1: thang (int)
+## a2: nam (int)
+#Tra ve:
+## v0, trong do v0 la mang 1 chieu co 3 phan tu v0, 4v0 va 8v0 tuong ung voi ngay, thang, nam
+NhapNgay_ThamSo:
