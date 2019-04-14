@@ -95,6 +95,10 @@ Tai_Ketthuc:
 	move $a0,$t5
 	syscall
 	
+	# return can/chi
+	move $v0,$t4
+	move $v1,$t5
+	
 	# restore
 	lw $ra,($sp)
 	lw $t0,4($sp)
@@ -106,7 +110,7 @@ Tai_Ketthuc:
 	# delete stack
 	addi $sp,$sp,40
 	
-	# return
+	# 
 	jr $ra
 	
 ########################## CAN #########################
