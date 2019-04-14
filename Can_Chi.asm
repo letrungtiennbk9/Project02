@@ -27,7 +27,10 @@
 .text
 	.globl Tai_CanChi
 Tai_CanChi:
-
+	# Can chi cua nam 
+	# Truyen nam vao $v0
+	# Tra ve: Can -> $v0, Chi -> $v1
+	# 
 	# DAU THU TUC
 	
 	# backup
