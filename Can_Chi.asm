@@ -1,5 +1,4 @@
 .data 
-	nhapnam:.asciiz "\nNhap nam: "
 	output:.asciiz "\nKQ: "
 	
 	Can_Canh:.asciiz"Canh "
