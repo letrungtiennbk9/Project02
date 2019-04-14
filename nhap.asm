@@ -66,7 +66,7 @@ Accept:
 	add $v1, $a1, $zero
 	sw $v1, 4($v0) # Luu mm vao v0
 	add $v1, $a2, $zero
-	sw $v1, 8($v0) # Luu mm vao v0
+	sw $v1, 8($v0) # Luu yyyy vao v0
 demoload: # demo load tu register
 	lw $s1, 0($v0)
 	lw $s2, 4($v0)
