@@ -38,8 +38,6 @@ Tai_CanChi:
 	sw $t2,12($sp)
 	sw $t4,16($sp)
 	sw $t5,20($sp)
-	sw $a0,24($sp)
-	sw $v0,28($sp)
 	
 	# THAN THU TUC
 	
