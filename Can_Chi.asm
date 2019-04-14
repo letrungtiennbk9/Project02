@@ -28,18 +28,22 @@
 .text
 	.globl Tai_CanChi
 Tai_CanChi:
-	######### NHAP DE TEST #########
-	#                              #
-	li $v0,4
-	la $a0,nhapnam
-	syscall
+
+	# DAU THU TUC
 	
-	li $v0,5
-	syscall
-	#                              #
-	###### XIN DUNG SAN SI :( ######
-
-
+	# backup
+	addi $sp,$sp,-40
+	sw $ra,($sp)
+	sw $t0,4($sp)
+	sw $t1,8($sp)
+	sw $t2,12($sp)
+	sw $t4,16($sp)
+	sw $t5,20($sp)
+	sw $a0,24($sp)
+	sw $v0,28($sp)
+	
+	# THAN THU TUC
+	
 	add $t0,$v0,$zero
 	addi $t1,$t1,10
 	addi $t2,$t2,12
@@ -76,20 +80,35 @@ Chi:
 	beq $t2,11,Mui
 	
 Tai_Ketthuc:
+
+	# CUOI THU TUC
+	
+	# XUAT KQ
 	li $v0,4
 	la $a0,output
 	syscall
 	
+	# CAN
 	move $a0,$t4
 	syscall
 	
+	# CHI
 	move $a0,$t5
 	syscall
 	
-	jr $ra
+	# restore
+	lw $ra,($sp)
+	lw $t0,4($sp)
+	lw $t1,8($sp)
+	lw $t2,12($sp)
+	lw $t4,16($sp)
+	lw $t5,20($sp)
 	
-	li $v0,10
-	syscall 
+	# delete stack
+	addi $sp,$sp,40
+	
+	# return
+	jr $ra
 	
 ########################## CAN #########################
 	
