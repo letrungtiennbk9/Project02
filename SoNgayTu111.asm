@@ -22,9 +22,9 @@ Thong_SoNgayTu111:
 	
 	#Than thu tuc
 	
-	move $s1, $a0
-	move $s2, 4($a0)
-	move $s3, 8($a0)
+	lw $s1, ($a0)
+	lw $s2, 4($a0)
+	lw $s3, 8($a0)
 	#kiem tra thang < 3
 	li $t1, 3
 	slt $t2,$s2,$t1

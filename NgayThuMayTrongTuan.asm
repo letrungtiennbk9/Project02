@@ -31,14 +31,14 @@ Thong_Weekday:
 	
 	#Than thu tuc
 	# Lay tham so truyen vao
-	move $s1, $a0
-	move $s2, 4($a0)
-	move $s3, 8($a0)
+	lw $s1, ($a0)
+	lw $s2, 4($a0)
+	lw $s3, 8($a0)
 	
 	#Truyen tham so de goi ham SoNgayTu111
-	move $a0, $s1
-	move $a1, $s2
-	move $a2, $s3
+	sw $s1, ($a0)
+	sw $s2, 4($a0)
+	sw $s3, 8($a0)
 	
 	jal Thong_SoNgayTu111
 	move $t0, $v0
