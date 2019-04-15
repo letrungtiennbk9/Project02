@@ -37,9 +37,9 @@ hqthinh_xuat:
 	sw $s3,20($sp)
 	
 	#lay cac gia tri tu $a0
-	move $s1,0($a0)
+	move $s3,0($a0)
 	move $s2,4($a0)
-	move $s3,8($a0)
+	move $s1,8($a0)
 
 ######
 #xuat ra menu cac lua chon	
