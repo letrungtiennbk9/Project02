@@ -11,19 +11,19 @@
 	.globl suu_nhap
 suu_nhap: 
 	# Dau thu tuc
-	addi $sp, $sp, -40
+	addi $sp, $sp, -44
 	# backup
-	sw $t0, 0($sp)
-	sw $t1, 4($sp)
-	sw $t2, 8($sp)
-	sw $t3, 12($sp)
-	sw $t4, 16($sp)
-	sw $a0, 20($sp)
-	sw $a1, 24($sp)
-	sw $a2, 28($sp)
-	sw $s0, 32($sp)
-	sw $ra, 36($sp)
-	# Than thu tuc
+	sw $ra,($sp)
+	sw $t0, 4($sp)
+	sw $t1, 8($sp)
+	sw $t2, 12($sp)
+	sw $t3, 16($sp)
+	sw $t4, 20($sp)
+	sw $a0, 24($sp)
+	sw $a1, 28($sp)
+	sw $a2, 32($sp)
+	sw $s0, 36($sp)
+	sw $v1, 40($sp)
 	# nhap DAY
 	li $v0, 4
 	la $a0, suu_tb1
@@ -45,10 +45,10 @@ suu_nhap:
 	li $v0, 5
 	syscall
 	move $t2, $v0
+	# Than thu tuc
 	move	$a0, $t0 
 	move	$a1, $t1 
 	move	$a2, $t2 
-	
 	# Kiem tra tinh hop le
 	jal suu_kiemtrahople
 	bne $v0,0,suu_accept
@@ -158,16 +158,19 @@ suu_break:
 	jr	$ra
 suu_ketthucham:
 	# cuoi thu tuc
-	lw $t0, 0($sp)
-	lw $t1, 4($sp)
-	lw $t2, 8($sp)
-	lw $t3, 12($sp)
-	lw $t4, 16($sp)
-	lw $a0, 20($sp)
-	lw $a1, 24($sp)
-	lw $a2, 28($sp)
-	lw $s0, 32($sp)
-	lw $ra, 36($sp)
-	addi $sp, $sp, 40
+	#restore
+	lw $ra,($sp)
+	lw $t0, 4($sp)
+	lw $t1, 8($sp)
+	lw $t2, 12($sp)
+	lw $t3, 16($sp)
+	lw $t4, 20($sp)
+	lw $a0, 24($sp)
+	lw $a1, 28($sp)
+	lw $a2, 32($sp)
+	lw $s0, 36($sp)
+	lw $v1, 40($sp)
+	# xoa stack
+	addi $sp, $sp, 44
 	# tra ve
 	jr $ra
