@@ -1,20 +1,5 @@
 .data
-	hqthinh_cach:	.asciiz " "
-	hqthinh_phay:	.asciiz ","
-	hqthinh_cheo:	.asciiz "/"
 	hqthinh_zero:	.asciiz "0"
-	hqthinh_jan: 	.asciiz "January"
-	hqthinh_feb: 	.asciiz "February"
-	hqthinh_mar: 	.asciiz "March"
-	hqthinh_apr: 	.asciiz "April"
-	hqthinh_may: 	.asciiz "May"
-	hqthinh_jun: 	.asciiz "June"
-	hqthinh_jul: 	.asciiz "July"
-	hqthinh_aug: 	.asciiz "August"
-	hqthinh_sep: 	.asciiz "September"
-	hqthinh_oct: 	.asciiz "October"
-	hqthinh_nov: 	.asciiz "November"
-	hqthinh_dec: 	.asciiz "December"
 	
 .text
 .globl hqthinh_xuatfile
@@ -39,31 +24,31 @@ hqthinh_xuatfile:
 
 ######
 #dang 'dd/mm/yyyy'
-hqthinh_dang1:
+hqthinh_fdang1:
 
-	blt,$s2,10,in_0_day1 #kiem tra neu ngay < 10
+	blt,$s2,10,fout_0_d1 #kiem tra neu ngay < 10
 	#xuat ngay
-	jal XuatNgay
+	jal Ngay_fout
 	
 	#xuat dau gach cheo
-	jal XuatGachCheo
+	jal GCheo_fout
 	
-	blt,$s3,10,in_0_month1 #kiem tra neu thang < 10
+	blt,$s3,10,fout_0_m1 #kiem tra neu thang < 10
 	#xuat thang
-	jal XuatThang
+	jal Thang_fout
 	
 	#xuat dau gach cheo
-	jal XuatGachCheo
+	jal GCheo_fout
 	
 	#xuat nam
-	jal XuatNam
+	jal Nam_fout
 	
 	#Nhay den dang 2
-	j hqthinh_dang2
+	j hqthinh_fdang2
 	
 #######
 #thuc hien khi ngay < 10
-in_0_day1:
+fout_0_d1:
 	#xuat so 0
   	li   $v0, 15
   	move $a0, $s1
@@ -83,23 +68,23 @@ in_0_day1:
   	syscall
 	
 	#xuat dau gach cheo
-	jal XuatGachCheo
+	jal GCheo_fout
 	
-	blt,$s3,10,in_0_month1 #kiem tra neu thang < 10
+	blt,$s3,10,fout_0_m1 #kiem tra neu thang < 10
 	#xuat thang
-	jal XuatThang
+	jal Thang_fout
 	
 	#xuat dau gach cheo
-	jal XuatGachCheo
+	jal GCheo_fout
 	
 	#xuat nam
-	jal XuatNam
+	jal Nam_fout
 	
-	j hqthinh_dang2
+	j hqthinh_fdang2
 
 #######
 #thuc hien khi thang < 10
-in_0_month1:
+fout_0_m1:
 	#xuat so 0
   	li   $v0, 15
   	move $a0, $s1
@@ -119,38 +104,38 @@ in_0_month1:
   	syscall
 	
 	#xuat dau gach cheo
-	jal XuatGachCheo
+	jal GCheo_fout
 	
 	#xuat nam
-	jal XuatNam
+	jal Nam_fout
 	
-	j hqthinh_dang2
+	j hqthinh_fdang2
 				
 #######
 #dang 'dd month, yyyy'
-hqthinh_dang2:
+hqthinh_fdang2:
 	
-	blt,$s2,10,in_0_day2 #kiem tra neu ngay < 10
+	blt,$s2,10,fout_0_d2 #kiem tra neu ngay < 10
 	#xuat ngay
-	jal XuatNgay
+	jal Ngay_fout
 	
 	#xuat dau cach
-	jal XuatDauCach
+	jal Space_fout
 	
 	#xuat thang 1
 	jal thang_1
 	
 	#xuat dau phay
-	jal XuatDauPhay
+	jal Phay_fout
 	
 	#xuat nam
-	jal XuatNam
+	jal Nam_fout
 	
-	j hqthinh_dang3
+	j hqthinh_fdang3
 
 #######
 #thuc hien khi ngay < 10
-in_0_day2:
+fout_0_d2:
 	#in so 0
   	li   $v0, 15
   	move $a0, $s1
@@ -170,47 +155,47 @@ in_0_day2:
   	syscall
 	
 	#xuat dau phay
-	jal XuatDauCach
+	jal Space_fout
 	
 	#xuat thang 1
 	jal thang_1
 	
 	#xuat dau phay
-	jal XuatDauPhay
+	jal Phay_fout
 	
 	#xuat nam
-	jal XuatNam	
+	jal Nam_fout	
 	
-	j hqthinh_dang3
+	j hqthinh_fdang3
 
 #######
 #dang 'month dd, yyyy'
-hqthinh_dang3:
+hqthinh_fdang3:
 
 	#xuat thang 1
 	jal thang_1
 	
 	#xuat dau cach
-	jal XuatDauCach
+	jal Space_fout
 	
-	blt,$s2,10,in_0_day3
+	blt,$s2,10,fout_0_d3
 	#xuat ngay
-	jal XuatNgay
+	jal Ngay_fout
 	
 	#xuat dau phay
-	jal XuatDauPhay
+	jal Phay_fout
 	
 	#xuat dau cach
-	jal XuatDauCach
+	jal Space_fout
 	
 	#xuat nam
-	jal XuatNam
+	jal Nam_fout
 	
-	j hqthinh_KetThuc
+	j hqthinh_fKetThuc
 
 #######
 #thuc hien khi ngay < 10
-in_0_day3:
+fout_0_d3:
 	#xuat so 0
   	li   $v0, 15
   	move $a0, $s1	
@@ -230,17 +215,17 @@ in_0_day3:
   	syscall
 	
 	#xuat dau phay
-	jal XuatDauPhay
+	jal Phay_fout
 	
 	#xuat dau cach
-	jal XuatDauCach
+	jal Space_fout
 	
 	#xuat nam
-	jal XuatNam
+	jal Nam_fout
 
-	j hqthinh_KetThuc
+	j hqthinh_fKetThuc
 #######
-thang_1:
+fthang_1:
 	#backup
 	addi $sp,$sp,-12
 	sw $a0,($sp)
@@ -263,7 +248,7 @@ thang_1:
 	jr $ra
 
 #######
-thang_2:
+fthang_2:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -284,7 +269,7 @@ thang_2:
 	jr $ra
 	
 #######
-thang_3:
+fthang_3:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -305,7 +290,7 @@ thang_3:
 	jr $ra
 		
 #######
-thang_4:
+fthang_4:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -326,7 +311,7 @@ thang_4:
 	jr $ra
 	
 #######
-thang_5:
+fthang_5:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -347,7 +332,7 @@ thang_5:
 	jr $ra
 	
 #######
-thang_6:
+fthang_6:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -368,7 +353,7 @@ thang_6:
 	jr $ra
 	
 #######
-thang_7:
+fthang_7:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -389,7 +374,7 @@ thang_7:
 	jr $ra
 	
 #######
-thang_8:
+fthang_8:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -410,7 +395,7 @@ thang_8:
 	jr $ra
 	
 #######
-thang_9:
+fthang_9:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -431,7 +416,7 @@ thang_9:
 	jr $ra																																																							
 
 #######
-thang_10:
+fthang_10:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -452,7 +437,7 @@ thang_10:
 	jr $ra
 
 #######
-thang_11:
+fthang_11:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -473,7 +458,7 @@ thang_11:
 	jr $ra
 	
 #######
-thang_12:
+fthang_12:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -493,7 +478,7 @@ thang_12:
 	jr $ra
 	
 #######
-XuatNgay:
+Ngay_fout:
 	#backup
 	addi $sp,$sp,-12
 	sw $a0,($sp)
@@ -519,7 +504,7 @@ XuatNgay:
 	jr $ra		
 	
 #######
-XuatThang:
+Thang_fout:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -543,7 +528,7 @@ XuatThang:
 	jr $ra	
 	
 #######
-XuatNam:
+Nam_fout:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -567,7 +552,7 @@ XuatNam:
 	jr $ra	
 
 #######
-XuatDauCach:
+Space_fout:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -587,7 +572,7 @@ XuatDauCach:
 	jr $ra	
 	
 #######
-XuatGachCheo:
+GCheo_fout:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -607,7 +592,7 @@ XuatGachCheo:
 	jr $ra	
 	
 #######
-XuatDauPhay:
+Phay_fout:
 	addi $sp,$sp,-12
 	sw $a0,($sp)
 	sw $a1,4($sp)
@@ -627,7 +612,7 @@ XuatDauPhay:
 	jr $ra
 
 #######
-hqthinh_KetThuc:	
+hqthinh_fKetThuc:	
 	###Cuoi thu tuc
 	###Restore
 	lw $ra,($sp)
