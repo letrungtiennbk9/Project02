@@ -5,6 +5,10 @@
 	suu_tb4: .asciiz "Du lieu khong hop le !\n"
 	dayArr: .word 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 .text
+	# - Chuc nang: Cho phep nguoi dung nhap dd, mm, yyyy tu ban phim
+	# - Truyen vao dd,mm,yyyy
+	# - Tra ve register v0 chua dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0))
+	# - Co ham de kiem tra nam nhuan ($v0 = 1: nam nhuan, $v0 = 0: khong la nam nhuan)
 	.globl main
 main:
 	jal suu_nhap
