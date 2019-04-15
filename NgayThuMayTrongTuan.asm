@@ -10,7 +10,7 @@
 .text
 .globl Thong_Weekday
 
-# cho co nhap ngay roi edit ghi chu tham so truyen vao nhe
+# tham so truyen vao la mang ngay, truyen vao thanh ghi $a0
 # ham tra ve chuoi ket qua la ngay thu may trong tuan cua ngay duoc truyen vao
 #ket qua tra ve luu trong thanh ghi $v0
 
@@ -31,9 +31,9 @@ Thong_Weekday:
 	
 	#Than thu tuc
 	
-	move $s1, $a0
-	move $s2, $a1
-	move $s3, $a2
+	move $s1, ($a0)
+	move $s2, 4($a0)
+	move $s3, 8($a0)
 	#kiem tra thang < 3
 	li $t1, 3
 	slt $t2,$s2,$t1

@@ -1,5 +1,4 @@
 .data 
-	nhapnam:.asciiz "\nNhap nam: "
 	output:.asciiz "\nKQ: "
 	
 	Can_Canh:.asciiz"Canh "
@@ -28,18 +27,23 @@
 .text
 	.globl Tai_CanChi
 Tai_CanChi:
-	######### NHAP DE TEST #########
-	#                              #
-	li $v0,4
-	la $a0,nhapnam
-	syscall
+	# Can chi cua nam 
+	# Truyen nam vao $v0
+	# Tra ve: Can -> $v0, Chi -> $v1
+	# 
+	# DAU THU TUC
 	
-	li $v0,5
-	syscall
-	#                              #
-	###### XIN DUNG SAN SI :( ######
-
-
+	# backup
+	addi $sp,$sp,-40
+	sw $ra,($sp)
+	sw $t0,4($sp)
+	sw $t1,8($sp)
+	sw $t2,12($sp)
+	sw $t4,16($sp)
+	sw $t5,20($sp)
+	
+	# THAN THU TUC
+	
 	add $t0,$v0,$zero
 	addi $t1,$t1,10
 	addi $t2,$t2,12
@@ -76,20 +80,39 @@ Chi:
 	beq $t2,11,Mui
 	
 Tai_Ketthuc:
+
+	# CUOI THU TUC
+	
+	# XUAT KQ
 	li $v0,4
 	la $a0,output
 	syscall
 	
+	# CAN
 	move $a0,$t4
 	syscall
 	
+	# CHI
 	move $a0,$t5
 	syscall
 	
-	jr $ra
+	# return can/chi
+	move $v0,$t4
+	move $v1,$t5
 	
-	li $v0,10
-	syscall 
+	# restore
+	lw $ra,($sp)
+	lw $t0,4($sp)
+	lw $t1,8($sp)
+	lw $t2,12($sp)
+	lw $t4,16($sp)
+	lw $t5,20($sp)
+	
+	# delete stack
+	addi $sp,$sp,40
+	
+	# 
+	jr $ra
 	
 ########################## CAN #########################
 	

@@ -4,16 +4,13 @@
 	suu_tb3: .asciiz "Nhap YEAR: "
 	suu_tb4: .asciiz "Du lieu khong hop le !\n"
 	dayArr: .word 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-	tempArr: .space 3
+	tempArr: .space 3 
 .text
-	.globl main
-main:
-	container:
-	jal INPUT
-	move $t0, $v0
-	bne $v0,1,Unaccept
-	bne $v0,0,Accept
-	j container
+	# - Chuc nang: Cho phep nguoi dung nhap dd, mm, yyyy tu ban phim
+	# - Truyen vao dd,mm,yyyy
+	# - Tra ve register v0 chua dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0))
+	# - Co ham LEAPYEAR de kiem tra nam nhuan ($v0 = 1: nam nhuan, $v0 = 0: khong la nam nhuan)
+	
 INPUT: # Ham nhap (dd,mm,yyyy)
 	addi $sp, $sp, -12
 	# backup
@@ -47,7 +44,8 @@ INPUT: # Ham nhap (dd,mm,yyyy)
 	move	$a2, $t2 #yyyy
 	# Kiem tra tinh hop le
 	jal checkValid
-	move $v0,$v0
+	bne $v0,1,Unaccept
+	bne $v0,0,Accept
 	lw $t0,0($sp)
 	lw $t1,4($sp)
 	lw $t2,8($sp)
@@ -66,15 +64,8 @@ Accept:
 	add $v1, $a1, $zero
 	sw $v1, 4($v0) # Luu mm vao v0
 	add $v1, $a2, $zero
-	sw $v1, 8($v0) # Luu yyyy vao v0
-demoload: # demo load tu register
-	lw $s1, 0($v0)
-	lw $s2, 4($v0)
-	lw $s3, 8($v0)
-endpro: # ket thuc chuong trinh (dung de demo ham nhap thoi)
-	li $v0, 10
-	syscall
-checkValid:
+	sw $v1, 8($v0) # Luu mm vao v0
+checkValid: # Kiem tra du lieu dau vao
 	addi	$sp, $sp, -32
 	# backup
 	sw	$a0, 28($sp)
@@ -91,15 +82,15 @@ checkValid:
 	li $t3, 13
 	slt $t3, $t1, $t3 # kiem tra xem mm < 13?
 	beq $t3,$0,Invalid # mm > 13
-
+	
 	# Kiem tra DAY
 	la	$s0, dayArr
 	addi	$t4, $t1, -1
 	sll	$t4, $t4, 2
 	add	$s0, $s0, $t4
 	lw	$s0, ($s0) # so ngay cua THANG da nhap
-
-	li  $t4, 2
+	
+	li  $t4, 2 
 	bne $t1, $t4, dateCheck
 	lw  $a0, 28($sp)
 	jal LEAPYEAR
@@ -127,7 +118,7 @@ End:
 	lw	$s0, 0($sp)
 	addi	$sp, $sp, 32
 	jr 	$ra
-LEAPYEAR:
+LEAPYEAR: # Ham kiem tra nam nhuan
 	addi	$sp, $sp, -12
 	sw	$ra, 8($sp)
 	sw	$t0, 4($sp)
@@ -137,23 +128,24 @@ LEAPYEAR:
 	div	$t1, $t0
 	mfhi	$t0
 	beq 	$t0, $0, TRUE
-
+	
 	li	$t0, 4
 	div	$t1, $t0
 	mfhi	$t0
-	bne 	$t0, $0, FALSE
-
+	bne 	$t0, $0, FALSE			
+	
 	li	$t0, 100
 	div	$t1, $t0
 	mfhi	$t0
-	beq	$t0, $0, FALSE
+	beq	$t0, $0, FALSE		
 TRUE:
 	li	$v0, 1
 	j	BREAK
 FALSE:
 	li	$v0, 0
 	j	BREAK
-BREAK:
+BREAK:	
+	# restore
 	lw	$ra, 8($sp)
 	lw	$t0, 4($sp)
 	lw	$t1, 0($sp)
