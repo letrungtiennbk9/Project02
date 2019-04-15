@@ -1,7 +1,7 @@
 .text
 
 .globl Thong_SoNgayTu111
-# tham so truyen vao la mang ngay, truyen vao thanh ghi $a0
+# cho co nhap ngay roi edit ghi chu tham so truyen vao nhe
 # ham tra ve gia tri ngay thu n tu ngay 1/1/1 vao thanh ghi $v0
 # chuc nang: cho biet ngay vua nhap (tham so truyen vao) la ngay thu may ke tu ngay 1/1/1
 
@@ -22,7 +22,7 @@ Thong_SoNgayTu111:
 	
 	#Than thu tuc
 	
-	move $s1, ($a0)
+	move $s1, $a0
 	move $s2, 4($a0)
 	move $s3, 8($a0)
 	#kiem tra thang < 3

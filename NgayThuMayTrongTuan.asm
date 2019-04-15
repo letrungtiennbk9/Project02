@@ -10,15 +10,15 @@
 .text
 .globl Thong_Weekday
 
-# tham so truyen vao la mang ngay, truyen vao thanh ghi $a0
+# tham so truyen vao: thanh ghi $a0 la mang ngay
 # ham tra ve chuoi ket qua la ngay thu may trong tuan cua ngay duoc truyen vao
-#ket qua tra ve luu trong thanh ghi $v0
+# ket qua tra ve luu trong thanh ghi $v0
 
 Thong_Weekday:
 	#Dau thu tuc
 	addi $sp, $sp, -40
 	#backup
-	sw $ra,($sp)
+	sw $ra,	($sp)
 	sw $t0, 4($sp)
 	sw $t1, 8($sp)
 	sw $s1, 12($sp)
@@ -30,81 +30,19 @@ Thong_Weekday:
 	sw $a2, 36($sp)
 	
 	#Than thu tuc
-	
-	move $s1, ($a0)
+	# Lay tham so truyen vao
+	move $s1, $a0
 	move $s2, 4($a0)
 	move $s3, 8($a0)
-	#kiem tra thang < 3
-	li $t1, 3
-	slt $t2,$s2,$t1
-	bne $t2,$0,Thong_TangThang_GiamNam
-	j Thong_TiepTucNeuKhongTang
-	#Truong hop thang < 3
-Thong_TangThang_GiamNam:
-	li $t1, 1
-	sub $s3, $s3, $t1
 	
-	li $t1, 12
-	add $s2, $s2, $t1
+	#Truyen tham so de goi ham SoNgayTu111
+	move $a0, $s1
+	move $a1, $s2
+	move $a2, $s3
 	
-Thong_TiepTucNeuKhongTang:
-	li $t0, 0
+	jal Thong_SoNgayTu111
+	move $t0, $v0
 	
-	li $t1, 365
-	mult $t1, $s3
-	mflo $s4
-	
-	# s = s + kq1
-	add $t0, $t0, $s4
-	
-	#year /4
-	li $t1, 4
-	div $s3, $t1
-	mflo $s4
-	
-	# s = s + kq2
-	add $t0, $t0, $s4
-	
-	#year / 100
-	li $t1, 100
-	div $s3, $t1
-	mflo $s4
-	
-	# s = s + kq3
-	sub $t0, $t0, $s4
-	
-	#year / 400
-	li $t1, 400
-	div $s3, $t1
-	mflo $s4
-	
-	# s = s + kq3
-	add $t0, $t0, $s4
-	
-	
-	# s = s + (153 * month - 457) / 5
-	li $t1, 153
-	mult $t1, $s2
-	mflo $s4
-	
-	li $t1, 457
-	sub $s4, $s4, $t1
-	
-	li $t1, 5
-	div $s4, $t1
-	mflo $s4
-	
-	# s = s + kq4
-	add $t0, $t0, $s4
-	
-	# s = s + day
-	add $t0, $t0, $s1
-	
-	li $t1, 306
-	#s = s - 306
-	sub $t0, $t0, $t1 
-	
-	#chia lay du cho 7
 	li $t1, 7
 	div $t0, $t1
 	mfhi $t0
