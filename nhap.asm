@@ -103,13 +103,13 @@ suu_kiemtrahople:
 	lw	$s0, ($s0) # so ngay cua THANG da nhap
 
 	li  $t4, 2
-	bne $t1, $t4, suu_dateCheck
+	bne $t1, $t4, suu_kiemtradate
 	lw  $a0, 28($sp)
-	jal suu_namnhuan
-	beq	$v0, $0, suu_dateCheck # khong phai nam nhuan
+	jal suu_ktnamnhuan
+	beq	$v0, $0, suu_kiemtradate # khong phai nam nhuan
 	addi	$s0, $s0, 1 # nam nhuan
-	j 	suu_dateCheck
-suu_dateCheck: # Kiem tra xem so ngay cua Thang da nhap co phu hop voi Ngay da nhap hay khong
+	j 	suu_kiemtradate
+suu_kiemtradate: # Kiem tra xem so ngay cua Thang da nhap co phu hop voi Ngay da nhap hay khong
 	slt	$t4, $s0, $t0
 	bne	$t4, $0, suu_khonghople
 	j	suu_hople
@@ -130,7 +130,7 @@ suu_kt:
 	lw	$s0, 0($sp)
 	addi	$sp, $sp, 32
 	jr 	$ra
-suu_namnhuan:
+suu_ktnamnhuan:
 	addi	$sp, $sp, -12
 	sw	$ra, 8($sp)
 	sw	$t0, 4($sp)
