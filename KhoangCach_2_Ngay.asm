@@ -1,18 +1,18 @@
 .data
 .text
-.globl KhoangCach_2_Ngay
+.globl Thong_GetTime
 
 # tham so truyen vao: thanh ghi $a0, $a1 la 2 mang ngay
 # ham tra ve ket qua la khoang cach giua 2 chuoi ngay truyen vao
 # ket qua tra ve luu trong thanh ghi $v0
 
-KhoangCach_2_Ngay:
+Thong_GetTime:
 
 	#Dau thu tuc
 	addi $sp, $sp, -40
 	#backup
 	sw $ra,($sp)
-	sw $t0,4($sp)
+	sw $t0, 4($sp)
 	sw $t1, 8($sp)
 	sw $t2, 12($sp)
 	sw $s1, 16($sp)
@@ -23,13 +23,13 @@ KhoangCach_2_Ngay:
 	sw $a2, 36($sp)
 	
 	#Than thu tuc
-	move $s1, ($a0)
-	move $s2, 4($a0)
-	move $s3, 8($a0)
+	lw $s1, ($a0)
+	lw $s2, 4($a0)
+	lw $s3, 8($a0)
 	
-	move $a0, $s1
-	move $a1, $s2
-	move $a2, $s3
+	sw $s1, ($a0)
+	sw $s2, 4($a0)
+	sw $s3, 8($a0)
 	
 	jal Thong_SoNgayTu111
 	
@@ -37,13 +37,13 @@ KhoangCach_2_Ngay:
 	move $t0, $v0
 	
 	#lay ngay thu 2
-	move $s1, ($a1)
-	move $s2, 4($a1)
-	move $s3, 8($a1)
+	lw $s1, ($a1)
+	lw $s2, 4($a1)
+	lw $s3, 8($a1)
 	
-	move $a0, $s1
-	move $a1, $s2
-	move $a2, $s3
+	sw $s1, ($a0)
+	sw $s2, 4($a0)
+	sw $s3, 8($a0)
 	
 	jal Thong_SoNgayTu111
 	
