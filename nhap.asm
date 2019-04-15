@@ -105,8 +105,8 @@ suu_kiemtrahople:
 	bne $t1, $t4, suu_kiemtradate
 	lw  $a0, 28($sp)
 	jal suu_ktnamnhuan
-	beq	$v0, $0, suu_kiemtradate # khong phai nam nhuan
-	addi	$s0, $s0, 1 # nam nhuan
+	beq	$v0, $0, suu_kiemtradate 
+	addi	$s0, $s0, 1 
 	j 	suu_kiemtradate
 suu_kiemtradate: # Kiem tra xem so ngay cua Thang da nhap co phu hop voi Ngay da nhap hay khong
 	slt	$t4, $s0, $t0
