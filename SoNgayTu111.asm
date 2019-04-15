@@ -22,7 +22,11 @@ Thong_SoNgayTu111:
 	
 	#Than thu tuc
 	
+<<<<<<< HEAD
 	move $s1, ($a0)
+=======
+	move $s1, $a0
+>>>>>>> HuyThong
 	move $s2, 4($a0)
 	move $s3, 8($a0)
 	#kiem tra thang < 3

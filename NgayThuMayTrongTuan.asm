@@ -10,15 +10,19 @@
 .text
 .globl Thong_Weekday
 
+<<<<<<< HEAD
 # tham so truyen vao la mang ngay, truyen vao thanh ghi $a0
+=======
+# tham so truyen vao: thanh ghi $a0 la mang ngay
+>>>>>>> HuyThong
 # ham tra ve chuoi ket qua la ngay thu may trong tuan cua ngay duoc truyen vao
-#ket qua tra ve luu trong thanh ghi $v0
+# ket qua tra ve luu trong thanh ghi $v0
 
 Thong_Weekday:
 	#Dau thu tuc
 	addi $sp, $sp, -40
 	#backup
-	sw $ra,($sp)
+	sw $ra,	($sp)
 	sw $t0, 4($sp)
 	sw $t1, 8($sp)
 	sw $s1, 12($sp)
@@ -30,6 +34,7 @@ Thong_Weekday:
 	sw $a2, 36($sp)
 	
 	#Than thu tuc
+<<<<<<< HEAD
 	
 	move $s1, ($a0)
 	move $s2, 4($a0)
@@ -96,15 +101,21 @@ Thong_TiepTucNeuKhongTang:
 	
 	# s = s + kq4
 	add $t0, $t0, $s4
+=======
+	# Lay tham so truyen vao
+	move $s1, $a0
+	move $s2, 4($a0)
+	move $s3, 8($a0)
+>>>>>>> HuyThong
 	
-	# s = s + day
-	add $t0, $t0, $s1
+	#Truyen tham so de goi ham SoNgayTu111
+	move $a0, $s1
+	move $a1, $s2
+	move $a2, $s3
 	
-	li $t1, 306
-	#s = s - 306
-	sub $t0, $t0, $t1 
+	jal Thong_SoNgayTu111
+	move $t0, $v0
 	
-	#chia lay du cho 7
 	li $t1, 7
 	div $t0, $t1
 	mfhi $t0
