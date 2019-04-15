@@ -8,12 +8,7 @@
 	# - Chức năng: Cho phép người dùng nhập DAY, MONTH, YEAR
 	# - Trả về thanh ghi v0 chứa dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0))
 	# - Lấy giá trị từ thanh ghi v0 trước khi kết thúc bằng lệnh ($v0,10)
-	# - Vấn đề: Nếu không có lệnh kết thúc thì lệnh jr $ra sẽ trả về hàm nhập và chương trình sẽ lại bị loop
-	# vì vậy cần phải thực hiện đồng thời liên tục các chức năng trước khi kết thúc chương trình
-	.globl main
-main:
-	jal suu_nhap
-	lw $s1, 0($v0)
+	.globl suu_nhap
 suu_nhap: 
 	# Dau thu tuc
 	addi $sp, $sp, -40
@@ -174,4 +169,5 @@ suu_ketthucham:
 	lw $s0, 32($sp)
 	lw $ra, 36($sp)
 	addi $sp, $sp, 40
+	# tra ve
 	jr $ra
