@@ -36,10 +36,10 @@ hqthinh_xuat:
 	sw $s2,16($sp)
 	sw $s3,20($sp)
 	
-	#load cac gia tri tu $a0
-	lw $s1,0($a0)
-	lw $s2,4($a0)
-	lw $s3,8($a0)
+	#lay cac gia tri tu $a0
+	move $s1,0($a0)
+	move $s2,4($a0)
+	move $s3,8($a0)
 
 ######
 #xuat ra menu cac lua chon	
