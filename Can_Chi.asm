@@ -28,7 +28,7 @@
 	.globl Tai_CanChi
 Tai_CanChi:
 	# Can chi cua nam 
-	# Truyen nam vao $v0
+	# Truyen nam vao $a0
 	# Tra ve: Can -> $v0, Chi -> $v1
 	# 
 	# DAU THU TUC
@@ -44,7 +44,7 @@ Tai_CanChi:
 	
 	# THAN THU TUC
 	
-	add $t0,$v0,$zero
+	add $t0,$a0,$zero
 	addi $t1,$t1,10
 	addi $t2,$t2,12
 	
