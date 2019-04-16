@@ -8,7 +8,11 @@
 	# - Chức năng: Cho phép người dùng nhập DAY, MONTH, YEAR
 	# - Trả về thanh ghi v0 chứa dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0))
 	# - Lấy giá trị từ thanh ghi v0 trước khi kết thúc bằng lệnh ($v0,10)
-	.globl suu_nhap
+	.globl main
+main:
+	jal suu_nhap
+	li $v0, 10
+	syscall
 suu_nhap: 
 	# Dau thu tuc
 	addi $sp, $sp, -44
@@ -87,7 +91,7 @@ suu_kiemtrahople:
 	move 	$t2, $a2 # yyyy
 	li $t3, 13
 	slt $t3, $t1, $t3 # kiem tra xem mm < 13?
-	beq $t3,$0,suu_hople # mm > 13
+	beq $t3,$0,suu_khonghople # mm > 13
 
 	# Kiem tra DAY
 	la	$s0, dayArr
