@@ -64,7 +64,7 @@ suu_kiemtrahople:
 	move 	$t2, $a2 # yyyy
 	li $t3, 13
 	slt $t3, $t1, $t3 # kiem tra xem mm < 13?
-	beq $t3,$0,suu_hople # mm > 13
+	beq $t3,$0,suu_khonghople # mm > 13
 
 	# Kiem tra DAY
 	la	$s0, dayArr
