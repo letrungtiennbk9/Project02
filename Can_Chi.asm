@@ -44,7 +44,6 @@ Tai_CanChi:
 	sw $a0,24($sp)
 	
 	# THAN THU TUC
-	lw $a0,8($v0)
 	add $t0,$a0,$zero
 	addi $t1,$t1,10
 	addi $t2,$t2,12
