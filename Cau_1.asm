@@ -16,9 +16,9 @@ hqthinh_XuatTime:
 	sw $s3,16($sp)
 	
 	#lay cac gia tri tu $a0
-	move $s1,0($a0) #s1 = day
-	move $s2,4($a0) #s2 = month
-	move $s3,8($a0) #s3 = year
+	lw $s1,0($a0) #s1 = day
+	lw $s2,4($a0) #s2 = month
+	lw $s3,8($a0) #s3 = year
 	
 hqthinh_ddmmyyyy:
 	blt,$s1,10,day_1_ditgit #kiem tra neu ngay < 10
