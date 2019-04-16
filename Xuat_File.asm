@@ -18,9 +18,9 @@ hqthinh_xuatfile:
 	sw $s4,20($sp)
 	
 	#lay cac gia tri tu $a0
-	move $s2,0($a0) #s2 = day
-	move $s3,4($a0) #s3 = month
-	move $s4,8($a0) #s4 = year
+	lw $s2,0($a0) #s2 = day
+	lw $s3,4($a0) #s3 = month
+	lw $s4,8($a0) #s4 = year
 
 ######
 #dang 'dd/mm/yyyy'
