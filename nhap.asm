@@ -35,7 +35,7 @@ suu_nhap:
 	li $v0, 5
 	syscall
 	move $t0, $v0
-	# nhap MONTH
+	#nhap MONTH
 	li $v0, 4
 	la $a0, suu_tb2
 	syscall
