@@ -41,9 +41,10 @@ Tai_CanChi:
 	sw $t2,12($sp)
 	sw $t4,16($sp)
 	sw $t5,20($sp)
+	sw $a0,24($sp)
 	
 	# THAN THU TUC
-	
+	lw $a0,8($v0)
 	add $t0,$a0,$zero
 	addi $t1,$t1,10
 	addi $t2,$t2,12
@@ -107,6 +108,7 @@ Tai_Ketthuc:
 	lw $t2,12($sp)
 	lw $t4,16($sp)
 	lw $t5,20($sp)
+	lw $a0,24($sp)
 	
 	# delete stack
 	addi $sp,$sp,40
@@ -185,8 +187,3 @@ Tuat:
 Hoi:
 	la $t5,Chi_Hoi
 	j Tai_Ketthuc
-
-
-	
-	
-	
