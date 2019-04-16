@@ -1,6 +1,6 @@
 .data
 	hqthinh_kq: 		.asciiz "\nKet qua: "
-	hqthinh_menu: 		.asciiz "\n=======Menu======\nA. DD/MM/YYYY\nB. DD Month, YYYY.\nC. Month DD, YYYY\nD. Ket Thuc\n==============\nChon:"
+	hqthinh_menu: 		.asciiz "\n=======Menu======\nA. MM/DD/YYYY\nB. DD Month, YYYY.\nC. Month DD, YYYY\nD. Ket Thuc\n==============\nChon:"
 	hqthinh_gach_cheo: 	.asciiz "/"
 	hqthinh_phay: 		.asciiz ", "
 	hqthinh_space: 		.asciiz " "
@@ -35,12 +35,12 @@ hqthinh_Cau1:
 	sw $s3,16($sp)
 	
 	#lay cac gia tri tu $a0
-	lw $s1,0($a0) #s1 = day
+	lw $s3,0($a0) #s1 = day
 	lw $s2,4($a0) #s2 = month
-	lw $s3,8($a0) #s3 = year
+	lw $s1,8($a0) #s3 = year
 	
 hqthinh_ddmmyyyy:
-	blt,$s1,10,day_1_ditgit #kiem tra neu ngay < 10
+	blt,$s3,10,day_1_ditgit #kiem tra neu ngay < 10
 	#xuat ngay
 	jal XuatNgay
 	
@@ -161,21 +161,21 @@ hqthinh_XuatMenu:
 	j hqthinh_NhapSai
 	
 #######
-#dang 'dd/mm/yyyy'
+#dang 'mm/dd/yyyy'
 hqthinh_dang1:	
 	#xuat tb ket_qua
 	jal ThongBaoKQ
 
-	blt,$s3,10,in_0_day1 #kiem tra neu ngay < 10
-	#xuat ngay
-	jal XuatNgay
+	blt,$s2,10,in_0_month1 #kiem tra neu thang < 10
+	#xuat thang
+	jal XuatThang
 	
 	#xuat dau gach cheo
 	jal XuatGachCheo
 	
-	blt,$s2,10,in_0_month1 #kiem tra neu thang < 10
-	#xuat thang
-	jal XuatThang
+	blt,$s3,10,in_0_day1 #kiem tra neu ngay < 10
+	#xuat ngay
+	jal XuatNgay
 	
 	#xuat dau gach cheo
 	jal XuatGachCheo
@@ -198,13 +198,6 @@ in_0_day1:
 	#xuat dau gach cheo
 	jal XuatGachCheo
 	
-	blt,$s2,10,in_0_month1 #kiem tra neu thang < 10
-	#xuat thang
-	jal XuatThang
-	
-	#xuat dau gach cheo
-	jal XuatGachCheo
-	
 	#xuat nam
 	jal XuatNam
 	
@@ -219,6 +212,13 @@ in_0_month1:
 	
 	#xuat thang
 	jal XuatThang
+	
+	#xuat dau gach cheo
+	jal XuatGachCheo
+	
+	blt,$s3,10,in_0_day1 #kiem tra neu ngay < 10
+	#xuat ngay
+	jal XuatNgay
 	
 	#xuat dau gach cheo
 	jal XuatGachCheo
