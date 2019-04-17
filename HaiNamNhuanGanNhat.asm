@@ -132,7 +132,7 @@ Tai_2LeapEnd:
 	#delete stack
 	addi $sp,$sp,28
 	
-	#jr $ra
+	jr $ra
 	
 	
 	
