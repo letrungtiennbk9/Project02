@@ -18,22 +18,21 @@ hqthinh_xuatfile:
 	sw $s4,20($sp)
 	
 	#lay cac gia tri tu $a0
-	lw $s2,0($a0) #s2 = day
-	lw $s3,4($a0) #s3 = month
-	lw $s4,8($a0) #s4 = year
+	move $s2,0($a0) #s2 = day
+	move $s3,4($a0) #s3 = month
+	move $s4,8($a0) #s4 = year
 
 ######
-#dang 'dd/mm/yyyy'
-hqthinh_fdang1:
-
-	blt,$s2,10,fout_0_d1 #kiem tra neu ngay < 10
+#xuat file 'dd/mm/yyyy'
+hqthinh_fcau1:
+	blt,$s2,10,day0_cau1 #kiem tra neu ngay < 10
 	#xuat ngay
 	jal Ngay_fout
 	
 	#xuat dau gach cheo
 	jal GCheo_fout
 	
-	blt,$s3,10,fout_0_m1 #kiem tra neu thang < 10
+	blt,$s3,10,month0_cau1 #kiem tra neu thang < 10
 	#xuat thang
 	jal Thang_fout
 	
@@ -44,11 +43,11 @@ hqthinh_fdang1:
 	jal Nam_fout
 	
 	#Nhay den dang 2
-	j hqthinh_fdang2
+	j hqthinh_fdang1
 	
 #######
 #thuc hien khi ngay < 10
-fout_0_d1:
+day0_cau1:
 	#xuat so 0
   	li   $v0, 15
   	move $a0, $s1
@@ -73,6 +72,86 @@ fout_0_d1:
 	blt,$s3,10,fout_0_m1 #kiem tra neu thang < 10
 	#xuat thang
 	jal Thang_fout
+	
+	#xuat dau gach cheo
+	jal GCheo_fout
+	
+	#xuat nam
+	jal Nam_fout
+	
+	j hqthinh_fdang1
+
+#######
+#thuc hien khi thang < 10
+month0_cau1:
+	#xuat so 0
+  	li   $v0, 15
+  	move $a0, $s1
+  	la   $a1, hqthinh_zero
+  	li   $a2, 1
+  	syscall	
+	
+	#chuyen int sang string
+	lw $a0,$s3
+	jal itoa
+	move $v1, $v0
+	#xuat thang
+  	li   $v0, 15
+  	move $a0, $s1	
+  	la   $a1, ($v1)
+  	li   $a2, 1
+  	syscall
+	
+	#xuat dau gach cheo
+	jal GCheo_fout
+	
+	#xuat nam
+	jal Nam_fout
+	
+	j hqthinh_fdang1
+		
+#######
+hqthinh_fdang1:
+	blt,$s3,10,fout_0_m1 #kiem tra neu thang < 10
+	#xuat thang
+	jal Thang_fout
+	
+	#xuat dau gach cheo
+	jal GCheo_fout
+	
+	blt,$s2,10,fout_0_d1 #kiem tra neu ngay < 10
+	#xuat ngay
+	jal Ngay_fout
+	
+	#xuat dau gach cheo
+	jal GCheo_fout
+	
+	#xuat nam
+	jal Nam_fout
+	
+	#Nhay den dang 2
+	j hqthinh_fdang2
+
+#######
+#thuc hien khi ngay < 10
+fout_0_d1:
+	#xuat so 0
+  	li   $v0, 15
+  	move $a0, $s1
+  	la   $a1, hqthinh_zero
+  	li   $a2, 1
+  	syscall
+	
+	#chuyen int sang string
+	lw $a0,$s2
+	jal itoa
+	move $v1, $v0
+	#xuat ngay
+  	li   $v0, 15
+  	move $a0, $s1
+  	la   $a1, ($v1)
+  	li   $a2, 1
+  	syscall
 	
 	#xuat dau gach cheo
 	jal GCheo_fout
@@ -106,11 +185,18 @@ fout_0_m1:
 	#xuat dau gach cheo
 	jal GCheo_fout
 	
+	blt,$s2,10,fout_0_d1 #kiem tra neu ngay < 10
+	#xuat ngay
+	jal Ngay_fout
+	
+	#xuat dau gach cheo
+	jal GCheo_fout
+	
 	#xuat nam
 	jal Nam_fout
 	
 	j hqthinh_fdang2
-				
+	
 #######
 #dang 'dd month, yyyy'
 hqthinh_fdang2:
