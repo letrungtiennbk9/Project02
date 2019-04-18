@@ -18,9 +18,9 @@ hqthinh_xuatfile:
 	sw $s4,20($sp)
 	
 	#lay cac gia tri tu $a0
-	move $s2,0($a0) #s2 = day
-	move $s3,4($a0) #s3 = month
-	move $s4,8($a0) #s4 = year
+	lw $s2,0($a0) #s2 = day
+	lw $s3,4($a0) #s3 = month
+	lw $s4,8($a0) #s4 = year
 
 ######
 #xuat file 'dd/mm/yyyy'
@@ -56,7 +56,7 @@ day0_cau1:
   	syscall
 	
 	#chuyen int sang string
-	lw $a0,$s2
+	lw $a0,($s2)
 	jal itoa
 	move $v1, $v0
 	#xuat ngay
@@ -92,7 +92,7 @@ month0_cau1:
   	syscall	
 	
 	#chuyen int sang string
-	lw $a0,$s3
+	lw $a0,($s3)
 	jal itoa
 	move $v1, $v0
 	#xuat thang
@@ -143,7 +143,7 @@ fout_0_d1:
   	syscall
 	
 	#chuyen int sang string
-	lw $a0,$s2
+	lw $a0,($s2)
 	jal itoa
 	move $v1, $v0
 	#xuat ngay
@@ -172,7 +172,7 @@ fout_0_m1:
   	syscall	
 	
 	#chuyen int sang string
-	lw $a0,$s3
+	lw $a0,($s3)
 	jal itoa
 	move $v1, $v0
 	#xuat thang
@@ -230,7 +230,7 @@ fout_0_d2:
   	syscall
 	
 	#chuyen int sang string
-	lw $a0,$s2
+	lw $a0,($s2)
 	jal itoa
 	move $v1, $v0
 	#xuat ngay
@@ -290,7 +290,7 @@ fout_0_d3:
   	syscall
 	
 	#chuyen int sang string
-	lw $a0,$s2
+	lw $a0,($s2)
 	jal itoa
 	move $v1, $v0
 	#xuat ngay
@@ -571,7 +571,7 @@ Ngay_fout:
 	sw $a1,4($sp)
 	sw $a2,8($sp)
 	
-	lw $a0,$s2 	#truyen vao $a0
+	lw $a0,($s2) 	#truyen vao $a0
 	jal itoa 	#chuyen $a0 thanh chuoi va tra ve $v0
 	move $v1, $v0 	#$v1 = $v0
 	
@@ -596,7 +596,7 @@ Thang_fout:
 	sw $a1,4($sp)
 	sw $a2,8($sp)
 	
-	lw $a0,$s3	#truyen vao $a0
+	lw $a0,($s3)	#truyen vao $a0
 	jal itoa	#chuyen $a0 thanh chuoi va tra ve $v0
 	move $v1,$v0	#$v1 = $v0
 	
@@ -620,7 +620,7 @@ Nam_fout:
 	sw $a1,4($sp)
 	sw $a2,8($sp)
 	
-	lw $a0,$s4	#truyen vao $a0
+	lw $a0,($s4)	#truyen vao $a0
 	jal itoa	#chuyen $a0 thanh chuoi va tra ve $v0
 	move $v1,$v0	#$v1 = $v0
 	
@@ -700,7 +700,7 @@ Phay_fout:
 #######
 hqthinh_fKetThuc:	
 	###Cuoi thu tuc
-	###Restore
+	###Restorex
 	lw $ra,($sp)
 	lw $a0,4($sp)
 	lw $s1,8($sp)
