@@ -88,7 +88,7 @@ main:
 
 	Cau1:
 		move $a0 $s0
-		#jal hqthinh_XuatTime
+		jal hqthinh_Cau1
 		j switch
 
 	Cau2:
@@ -177,6 +177,7 @@ main:
 
 		j switch
 	Cau8:
+		
 	Cau9:
 	Thoat:
 		li $v0 10
