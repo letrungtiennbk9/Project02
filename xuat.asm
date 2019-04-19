@@ -674,7 +674,7 @@ day0_cau1:
   	syscall
 	
 	#chuyen int sang string
-	lw $a0,($s2)
+	move $a0,$s2
 	jal itoa
 	move $v1, $v0
 	#xuat ngay
@@ -711,7 +711,7 @@ month0_cau1:
   	syscall	
 	
 	#chuyen int sang string
-	lw $a0,($s3)
+	move $a0,$s3
 	jal itoa
 	move $v1, $v0
 	#xuat thang
@@ -784,7 +784,7 @@ fout_0_d1:
   	syscall
 	
 	#chuyen int sang string
-	lw $a0,($s2)
+	move $a0,$s2
 	jal itoa
 	move $v1, $v0
 	#xuat ngay
@@ -814,7 +814,7 @@ fout_0_m1:
   	syscall	
 	
 	#chuyen int sang string
-	lw $a0,($s3)
+	move $a0,$s3
 	jal itoa
 	move $v1, $v0
 	#xuat thang
@@ -893,7 +893,7 @@ fout_0_d2:
   	syscall
 	
 	#chuyen int sang string
-	lw $a0,($s2)
+	move $a0,$s2
 	jal itoa
 	move $v1, $v0
 	#xuat ngay
@@ -974,7 +974,7 @@ fout_0_d3:
   	syscall
 	
 	#chuyen int sang string
-	lw $a0,($s2)
+	move $a0,$s2
 	jal itoa
 	move $v1, $v0
 	#xuat ngay
@@ -1256,7 +1256,7 @@ Ngay_fout:
 	sw $a1,4($sp)
 	sw $a2,8($sp)
 	
-	lw $a0,($s2) 	#truyen vao $a0
+	move $a0,$s2 	#truyen vao $a0
 	jal itoa 	#chuyen $a0 thanh chuoi va tra ve $v0
 	move $v1, $v0 	#$v1 = $v0
 	
@@ -1281,7 +1281,7 @@ Thang_fout:
 	sw $a1,4($sp)
 	sw $a2,8($sp)
 	
-	lw $a0,($s3)	#truyen vao $a0
+	move $a0,$s3	#truyen vao $a0
 	jal itoa	#chuyen $a0 thanh chuoi va tra ve $v0
 	move $v1,$v0	#$v1 = $v0
 	
@@ -1305,7 +1305,7 @@ Nam_fout:
 	sw $a1,4($sp)
 	sw $a2,8($sp)
 	
-	lw $a0,($s4)	#truyen vao $a0
+	move $a0,$s4	#truyen vao $a0
 	jal itoa	#chuyen $a0 thanh chuoi va tra ve $v0
 	move $v1,$v0	#$v1 = $v0
 	
