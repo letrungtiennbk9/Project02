@@ -8,11 +8,7 @@
 	# - Chức năng: Cho phép người dùng nhập DAY, MONTH, YEAR
 	# - Trả về thanh ghi v0 chứa dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0))
 	# - Lấy giá trị từ thanh ghi v0 trước khi kết thúc bằng lệnh ($v0,10)
-	.globl main
-main:
-	jal suu_nhap
-	li $v0, 10
-	syscall
+	.globl suu_nhap
 suu_nhap: 
 	# Dau thu tuc
 	addi $sp, $sp, -44
