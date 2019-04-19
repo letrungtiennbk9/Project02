@@ -150,7 +150,7 @@ main:
 
 		j switch
 	Cau6:
-		lw $v0 8($s0)
+		lw $a0 8($s0)
 		jal Tai_CanChi
 
 		j switch
@@ -179,8 +179,7 @@ main:
 	Cau8:
 		lw $a0 8($s0)
 		jal Tai_HaiNamNhuanGanNhat
-		
-		
+		j switch
 	Cau9:
 	Thoat:
 		li $v0 10
