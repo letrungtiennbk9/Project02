@@ -177,6 +177,9 @@ main:
 
 		j switch
 	Cau8:
+		lw $a0 8($s0)
+		jal Tai_HaiNamNhuan
+		
 		
 	Cau9:
 	Thoat:

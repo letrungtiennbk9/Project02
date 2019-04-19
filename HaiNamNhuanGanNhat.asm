@@ -3,6 +3,8 @@
 	Tai_2LeapYearKQ: .asciiz " la: "
 	Tai_LeapAnd: .asciiz" va "
 .text
+	.globl Tai_HaiNamNhuan
+Tai_HaiNamNhuan:
 	# Tim hai nam nhuan gan nhat truoc va sau
 	# Nam truyen vao : $a0
 	# Ket qua: hai nam nhuan gan nhat lan luot luu vao $v0 va $v1
