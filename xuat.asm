@@ -1332,7 +1332,7 @@ Space_fout:
 	#xuat dau cach
 	li   $v0, 15
   	move $a0, $s1	
-  	la   $a1, hqthinh_cach
+  	la   $a1, hqthinh_space
   	li   $a2, 1
   	syscall
 	
