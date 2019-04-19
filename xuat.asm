@@ -1352,7 +1352,7 @@ GCheo_fout:
 	#xuat dau gach cheo
 	li   $v0, 15
   	move $a0, $s1	
-  	la   $a1, hqthinh_cheo
+  	la   $a1, hqthinh_gach_cheo
   	li   $a2, 1
   	syscall
 	
