@@ -620,9 +620,10 @@ hqthinh_KetThuc:
 #################### XUAT RA FILE #######################
 #########################################################
 	
+
 .globl hqthinh_filecau1
 ### truyen vao $a0 la dia chi con tro file
-### xuat ket qua cau 1 ra file
+### xuat dinh dang cau 1 ra file
 ### khong co tra ve
 hqthinh_filecau1: #Xuat ra file ket qua cau 1
 	###Dau thu tuc
@@ -997,12 +998,13 @@ fout_0_d3:
 #######
 fthang_1:
 	#backup
-	addi $sp,$sp,-12
+	addi $sp,$sp,-16
 	sw $a0,($sp)
 	sw $a1,4($sp)
 	sw $a2,8($sp)
+	sw $ra,12($sp)
 	
-	bgt,$s3,1,thang_2
+	bgt,$s3,1,fthang_2
 	#xuat thang 1
 	li   $v0, 15
   	move $a0, $s1	
@@ -1014,17 +1016,14 @@ fthang_1:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra
 
 #######
 fthang_2:
-	addi $sp,$sp,-12
-	sw $a0,($sp)
-	sw $a1,4($sp)
-	sw $a2,8($sp)
 	
-	bgt,$s3,2,thang_3
+	bgt,$s3,2,fthang_3
 	#xuat thang 2
 	li   $v0, 15
   	move $a0, $s1	
@@ -1035,17 +1034,14 @@ fthang_2:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra
 	
 #######
 fthang_3:
-	addi $sp,$sp,-12
-	sw $a0,($sp)
-	sw $a1,4($sp)
-	sw $a2,8($sp)
 	
-	bgt,$s3,3,thang_4
+	bgt,$s3,3,fthang_4
 	#xuat thang 3
 	li   $v0, 15
   	move $a0, $s1	
@@ -1056,17 +1052,14 @@ fthang_3:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra
 		
 #######
 fthang_4:
-	addi $sp,$sp,-12
-	sw $a0,($sp)
-	sw $a1,4($sp)
-	sw $a2,8($sp)
 	
-	bgt,$s3,4,thang_5
+	bgt,$s3,4,fthang_5
 	#xuat thang 4
 	li   $v0, 15
   	move $a0, $s1	
@@ -1077,17 +1070,14 @@ fthang_4:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra
 	
 #######
 fthang_5:
-	addi $sp,$sp,-12
-	sw $a0,($sp)
-	sw $a1,4($sp)
-	sw $a2,8($sp)
 	
-	bgt,$s3,5,thang_6
+	bgt,$s3,5,fthang_6
 	#xuat thang 5
 	li   $v0, 15
   	move $a0, $s1	
@@ -1098,17 +1088,14 @@ fthang_5:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra
 	
 #######
 fthang_6:
-	addi $sp,$sp,-12
-	sw $a0,($sp)
-	sw $a1,4($sp)
-	sw $a2,8($sp)
 	
-	bgt,$s3,6,thang_7
+	bgt,$s3,6,fthang_7
 	#xuat thang 6
 	li   $v0, 15
   	move $a0, $s1	
@@ -1119,17 +1106,14 @@ fthang_6:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra
 	
 #######
 fthang_7:
-	addi $sp,$sp,-12
-	sw $a0,($sp)
-	sw $a1,4($sp)
-	sw $a2,8($sp)
 	
-	bgt,$s3,7,thang_8
+	bgt,$s3,7,fthang_8
 	#xuat thang 7
 	li   $v0, 15
   	move $a0, $s1	
@@ -1140,17 +1124,14 @@ fthang_7:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra
 	
 #######
 fthang_8:
-	addi $sp,$sp,-12
-	sw $a0,($sp)
-	sw $a1,4($sp)
-	sw $a2,8($sp)
 	
-	bgt,$s3,8,thang_9
+	bgt,$s3,8,fthang_9
 	#xuat thang 8
 	li   $v0, 15
   	move $a0, $s1	
@@ -1161,17 +1142,14 @@ fthang_8:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra
 	
 #######
 fthang_9:
-	addi $sp,$sp,-12
-	sw $a0,($sp)
-	sw $a1,4($sp)
-	sw $a2,8($sp)
 	
-	bgt,$s3,9,thang_10
+	bgt,$s3,9,fthang_10
 	#xuat thang 9
 	li   $v0, 15
   	move $a0, $s1	
@@ -1182,17 +1160,14 @@ fthang_9:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
-	jr $ra																																																							
+	lw $ra,12($sp)
+	addi $sp,$sp,16
+	jr $ra																																																					
 
 #######
 fthang_10:
-	addi $sp,$sp,-12
-	sw $a0,($sp)
-	sw $a1,4($sp)
-	sw $a2,8($sp)
 	
-	bgt,$s3,10,thang_11
+	bgt,$s3,10,fthang_11
 	#xuat thang 10
 	li   $v0, 15
   	move $a0, $s1	
@@ -1203,17 +1178,13 @@ fthang_10:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra
-
 #######
 fthang_11:
-	addi $sp,$sp,-12
-	sw $a0,($sp)
-	sw $a1,4($sp)
-	sw $a2,8($sp)
 	
-	bgt,$s3,11,thang_12
+	bgt,$s3,11,fthang_12
 	#xuat thang 11
 	li   $v0, 15
   	move $a0, $s1	
@@ -1224,15 +1195,12 @@ fthang_11:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra
 	
 #######
 fthang_12:
-	addi $sp,$sp,-12
-	sw $a0,($sp)
-	sw $a1,4($sp)
-	sw $a2,8($sp)
 	
 	#xuat thang 12
 	li   $v0, 15
@@ -1244,16 +1212,18 @@ fthang_12:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra
 	
 #######
 Ngay_fout:
 	#backup
-	addi $sp,$sp,-12
+	addi $sp,$sp,-16
 	sw $a0,($sp)
 	sw $a1,4($sp)
 	sw $a2,8($sp)
+	sw $ra,12($sp)
 	
 	move $a0,$s2 	#truyen vao $a0
 	jal itoa 	#chuyen $a0 thanh chuoi va tra ve $v0
@@ -1270,15 +1240,17 @@ Ngay_fout:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra		
 	
 #######
 Thang_fout:
-	addi $sp,$sp,-12
+	addi $sp,$sp,-16
 	sw $a0,($sp)
 	sw $a1,4($sp)
 	sw $a2,8($sp)
+	sw $ra,12($sp)
 	
 	move $a0,$s3	#truyen vao $a0
 	jal itoa	#chuyen $a0 thanh chuoi va tra ve $v0
@@ -1294,15 +1266,17 @@ Thang_fout:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
-	jr $ra	
+	lw $ra,12($sp)
+	addi $sp,$sp,16
+	jr $ra
 	
 #######
 Nam_fout:
-	addi $sp,$sp,-12
+	addi $sp,$sp,-16
 	sw $a0,($sp)
 	sw $a1,4($sp)
 	sw $a2,8($sp)
+	sw $ra,12($sp)
 	
 	move $a0,$s4	#truyen vao $a0
 	jal itoa	#chuyen $a0 thanh chuoi va tra ve $v0
@@ -1318,15 +1292,17 @@ Nam_fout:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra	
 
 #######
 Space_fout:
-	addi $sp,$sp,-12
+	addi $sp,$sp,-16
 	sw $a0,($sp)
 	sw $a1,4($sp)
 	sw $a2,8($sp)
+	sw $ra,12($sp)
 	
 	#xuat dau cach
 	li   $v0, 15
@@ -1338,15 +1314,17 @@ Space_fout:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra	
 	
 #######
 GCheo_fout:
-	addi $sp,$sp,-12
+	addi $sp,$sp,-16
 	sw $a0,($sp)
 	sw $a1,4($sp)
 	sw $a2,8($sp)
+	sw $ra,12($sp)
 	
 	#xuat dau gach cheo
 	li   $v0, 15
@@ -1358,15 +1336,17 @@ GCheo_fout:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra	
 	
 #######
 Phay_fout:
-	addi $sp,$sp,-12
+	addi $sp,$sp,-16
 	sw $a0,($sp)
 	sw $a1,4($sp)
 	sw $a2,8($sp)
+	sw $ra,12($sp)
 	
 	#xuat dau phay
 	li   $v0, 15
@@ -1378,7 +1358,8 @@ Phay_fout:
 	lw $a0,($sp)
 	lw $a1,4($sp)
 	lw $a2,8($sp)
-	addi $sp,$sp,12
+	lw $ra,12($sp)
+	addi $sp,$sp,16
 	jr $ra
 
 #######
@@ -1395,4 +1376,3 @@ hqthinh_fKetThuc:
 	addi $sp, $sp,24
 	###Tra ve
 	jr $ra
-	
