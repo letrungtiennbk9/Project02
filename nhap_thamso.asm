@@ -7,7 +7,11 @@
 .text
 	# - Truyen dd,mm,yyyy vao cac thanh ghi tuong ung a0, a1, a2
 	# - Tra ve thanh ghi v0 chua dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0))
-	.globl suu_Nhap_ThamSo
+	.globl main
+main:
+	jal suu_Nhap_ThamSo
+	li $v0, 10
+	syscall
 suu_Nhap_ThamSo:
 	# Dau thu tuc
 	addi $sp, $sp, -44
@@ -24,9 +28,6 @@ suu_Nhap_ThamSo:
 	sw $s0, 36($sp)
 	sw $v1, 40($sp)
 	# Than thu tuc
-	la $a0, 30
-	la $a1, 04
-	la $a2, 1975
 	# Kiem tra tinh hop le
 	jal suu_kiemtrahople
 	bne $v0,0,suu_accept
