@@ -15,7 +15,8 @@ tien_tbKQ: 	.asciiz "Ket qua: "
 tien_tbNhuan: .asciiz "Nam nhuan"
 tien_tbKhongNhuan: .asciiz "Khong nhuan"
 tien_tbNhapTime2: .asciiz "--Nhap time2:--\n"
-	
+tien_tenFileIn: .asciiz "input.txt"
+tien_tenFileOut: .asciiz "output.txt"	
 	.text
 .globl main
 main:
@@ -179,8 +180,11 @@ main:
 	Cau8:
 		lw $a0 8($s0)
 		jal Tai_HaiNamNhuanGanNhat
+
 		j switch
 	Cau9:
+		la $a0 tien_tenFileIn
+		la $a1 tien_tenFileOut
 	Thoat:
 		li $v0 10
 		syscall

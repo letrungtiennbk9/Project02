@@ -150,21 +150,6 @@ LaNamNhuan:
 
 
 
-#Ham NhapNgay_ThamSo
-#Chuc nang: Tuong tu nhu ham nhap ngay, tuy nhien thay vi nhap du lieu bang tay thi ham nay se truyen
-#	    tham so cho ham.
-#Tham so:
-## a0: ngay (int)
-## a1: thang (int)
-## a2: nam (int)
-#Tra ve:
-## v0, trong do v0 la mang 1 chieu co 3 phan tu v0, 4v0 va 8v0 tuong ung voi ngay, thang, nam
-.globl NhapThamSo
-NhapThamSo:
-#----------------------------------------------------------------------------------------------------------
-
-
-
 
 #Ham atoi
 #Chuc nang: Chuyen doi mot so bat ky duoi dang asciiz sang word
@@ -262,7 +247,7 @@ atoi:
 #Tra ve: v0, voi v0 chua chuoi da chuyen doi
 .globl itoa
 itoa:
-	subi $sp $sp 32
+	subi $sp $sp 36
 	sw $ra ($sp)
 	sw $s0 4($sp)
 	sw $s1 8($sp)
@@ -271,6 +256,7 @@ itoa:
 	sw $t1 20($sp)
 	sw $t2 24($sp)
 	sw $v1 28($sp)
+	sw $t3 32($sp)
 
 
 
@@ -333,7 +319,8 @@ itoa:
 	lw $t1 20($sp)
 	lw $t2 24($sp)
 	lw $v1 28($sp)
-	addi $sp $sp 32
+	lw $t3 32($sp)
+	addi $sp $sp 36
 
 	jr $ra
 #--------------------------------------------------------------------------------------------
@@ -359,7 +346,7 @@ ChieuDaiChuoi:
 	lb $s1 ($a0)
 
 	ChieuDaiChuoi_Cond:
-	beq $s1 ' ' ChieuDaiChuoi_Exit
+	#beq $s1 ' ' ChieuDaiChuoi_Exit
 	bne $s1 $0 ChieuDaiChuoi_Loop
 	beq $s1 $0 ChieuDaiChuoi_Exit
 	ChieuDaiChuoi_Loop:
@@ -427,9 +414,52 @@ DemSoCS:
 
 
 
-#Ham XuatFile
-#Chuc nang: Xuat tat ca cac dang cua cau 2 ra file
-#Tham so: a0, voi a0 la ten file xuat
-#Tra ve: Khong co gia tri tra ve, file duoc truyen vao se duoc ghi gia tri
-.globl XuatFile
-XuatFile:
+#Ham SSChuoi
+#Tham so: a0, a1, voi a0, a1 chua 2 chuoi can so sanh
+#Tra ve: 0 neu a0 == a1 va nguoc lai
+.globl SSChuoi
+SSChuoi:
+	subi $sp $sp 28
+	sw $ra ($sp)
+	sw $a0 4($sp)
+	sw $a1 8($sp)
+	sw $t0 12($sp)
+	sw $t1 16($sp)
+	sw $t2 20($sp)
+	sw $t3 24($sp)
+
+	li $t0 0	#index
+	jal ChieuDaiChuoi
+	move $t1 $v0
+
+	li $v0 1
+
+	SSChuoi_Cond:
+	bne $t0 $t1 SSChuoi_Loop
+	beq $t0 $t1 SSChuoi_ExitLoop
+	SSChuoi_Loop:
+		lb $t2 ($a0)
+		lb $t3 ($a1)
+		beq $t2 $t3 SSChuoi_TiepTuc
+		bne $t2 $t3 SSChuoi_ReturnFalse
+		SSChuoi_TiepTuc:
+			addi $t0 $t0 1
+			addi $a0 $a0 1
+			addi $a1 $a1 1
+			j SSChuoi_Cond
+		SSChuoi_ReturnFalse:
+			li $v0 0
+			j SSChuoi_ExitLoop
+	SSChuoi_ExitLoop:
+
+
+	lw $ra ($sp)
+	lw $a0 4($sp)
+	lw $a1 8($sp)
+	lw $t0 12($sp)
+	lw $t1 16($sp)
+	lw $t2 20($sp)
+	lw $t3 24($sp)
+	addi $sp $sp 28
+
+	jr $ra

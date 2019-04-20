@@ -1256,7 +1256,7 @@ Ngay_fout:
 	sw $a1,4($sp)
 	sw $a2,8($sp)
 	
-	lw $a0,($s2) 	#truyen vao $a0
+	move $a0 $s2 	#truyen vao $a0
 	jal itoa 	#chuyen $a0 thanh chuoi va tra ve $v0
 	move $v1, $v0 	#$v1 = $v0
 	
