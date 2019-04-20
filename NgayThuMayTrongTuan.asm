@@ -43,6 +43,9 @@ Thong_Weekday:
 	jal Thong_SoNgayTu111
 	move $t0, $v0
 	
+	#Cong them 1 de dung voi cong thuc
+	addi $t0, $t0, 1
+	
 	li $t1, 7
 	div $t0, $t1
 	mfhi $t0
