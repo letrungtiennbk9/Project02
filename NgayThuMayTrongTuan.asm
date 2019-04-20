@@ -73,9 +73,8 @@ Thong_ThuBa:
 	j Thong_KetThucHam
 
 Thong_ThuTu:	
-	li $v0,4
 	la $a0,Thong_wed
-	syscall
+	move $v0, $a0
 	j Thong_KetThucHam
 
 Thong_ThuNam:
