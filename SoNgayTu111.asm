@@ -1,7 +1,7 @@
 .text
 
 .globl Thong_SoNgayTu111
-# cho co nhap ngay roi edit ghi chu tham so truyen vao nhe
+# tham so truyen vao: thanh ghi $a0 la mang ngay
 # ham tra ve gia tri ngay thu n tu ngay 1/1/1 vao thanh ghi $v0
 # chuc nang: cho biet ngay vua nhap (tham so truyen vao) la ngay thu may ke tu ngay 1/1/1
 
@@ -97,7 +97,10 @@ Thong_TiepTucNeuKhongTang:
 	
 	li $t1, 306
 	#s = s - 306
-	sub $t0, $t0, $t1 
+	sub $t0, $t0, $t1
+	
+	# s = s - 1 de tinh la ngay thu may tu ngay 1/1/1 
+	subi $t0, $t0, 1
 	
 	# chuyen kq ve $v0
 	move $v0, $t0
