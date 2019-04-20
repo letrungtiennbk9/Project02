@@ -157,7 +157,6 @@ hqthinh_XuatMenu:
 	beq $t0,'A',hqthinh_dang1
 	beq $t0,'B',hqthinh_dang2
 	beq $t0,'C',hqthinh_dang3
-	beq $t0,'D',hqthinh_KetThuc
 	
 	j hqthinh_NhapSai
 	
@@ -184,7 +183,7 @@ hqthinh_dang1:
 	#xuat nam
 	jal XuatNam
 	
-	j hqthinh_XuatMenu
+	j hqthinh_KetThuc
 	
 #######
 #thuc hien khi ngay < 10
@@ -202,7 +201,7 @@ in_0_day1:
 	#xuat nam
 	jal XuatNam
 	
-	j hqthinh_XuatMenu
+	j hqthinh_KetThuc
 
 #######
 #thuc hien khi thang < 10
@@ -227,7 +226,7 @@ in_0_month1:
 	#xuat nam
 	jal XuatNam
 	
-	j hqthinh_XuatMenu
+	j hqthinh_KetThuc
 				
 #######
 #dang 'dd month, yyyy'
@@ -251,7 +250,7 @@ hqthinh_dang2:
 	#xuat nam
 	jal XuatNam
 	
-	j hqthinh_XuatMenu
+	j hqthinh_KetThuc
 
 #######
 #thuc hien khi ngay < 10
@@ -275,7 +274,7 @@ in_0_day2:
 	#xuat nam
 	jal XuatNam
 	
-	j hqthinh_XuatMenu	
+	j hqthinh_KetThuc	
 
 #######
 #dang 'month dd, yyyy'
@@ -299,7 +298,7 @@ hqthinh_dang3:
 	#xuat nam
 	jal XuatNam
 	
-	j hqthinh_XuatMenu
+	j hqthinh_KetThuc
 
 #######
 #thuc hien khi ngay < 10
@@ -317,7 +316,7 @@ in_0_day3:
 	#xuat nam
 	jal XuatNam
 	
-	j hqthinh_XuatMenu
+	j hqthinh_KetThuc
 
 #######
 thang_1:
@@ -623,7 +622,7 @@ hqthinh_KetThuc:
 	
 .globl hqthinh_filecau1
 ### truyen vao $a0 la dia chi con tro file
-### xuat 3 dinh dang ra file
+### xuat ket qua cau 1 ra file
 ### khong co tra ve
 hqthinh_filecau1: #Xuat ra file ket qua cau 1
 	###Dau thu tuc
