@@ -7,11 +7,7 @@
 .text
 	# - Truyen dd,mm,yyyy vao cac thanh ghi tuong ung a0, a1, a2
 	# - Tra ve thanh ghi v0 chua dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0))
-	.globl main
-main:
-	jal suu_Nhap_ThamSo
-	li $v0, 10
-	syscall
+.globl suu_Nhap_ThamSo
 suu_Nhap_ThamSo:
 	# Dau thu tuc
 	addi $sp, $sp, -44

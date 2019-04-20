@@ -289,7 +289,9 @@ itoa:
 	move $v1 $v0	#Chuyen vung nho tu v0 sang v1 (vi hay phai thay doi gia tri cua v0)
 	lw $a0 12($sp)	#Khoi phuc lai a0 vi vua thay doi gia tri cua no
 
-
+	li $t3 0	#Day la bien dem de cuoi cung lay v0 tru di no, de lay dia chi cua ky tu dau tien
+			#trong chuoi, neu khong lam nhu vay thi khi in se in tu ky tu cuoi cung cua chuoi
+			#=> khong co ky tu nao duoc in ra ca.
 	itoa_Loop:
 		div $a0 $t0
 		mfhi $a0
