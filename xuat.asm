@@ -733,7 +733,7 @@ month0_cau1:
 #######
 .globl hqthinh_filecau2a
 ### truyen vao $a0 la dia chi con tro file
-### xuat 3 dinh dang ra file
+### xuat dinh dang cau 2a ra file
 ### khong co tra ve	
 hqthinh_filecau2a: #Xuat ra file ket qua cau 2a
 	###Dau thu tuc
@@ -843,7 +843,7 @@ fout_0_m1:
 #######
 .globl hqthinh_filecau2b
 ### truyen vao $a0 la dia chi con tro file
-### xuat 3 dinh dang ra file
+### xuat dinh dang cau 2b ra file
 ### khong co tra ve	
 hqthinh_filecau2b: #Xuat ra file ket qua cau 2b
 	###Dau thu tuc
@@ -921,7 +921,7 @@ fout_0_d2:
 #######
 .globl hqthinh_filecau2c
 ### truyen vao $a0 la dia chi con tro file
-### xuat 3 dinh dang ra file
+### xuat dinh dang cau 2c ra file
 ### khong co tra ve	
 hqthinh_filecau2c: #Xuat ra file ket qua cau 2c
 	###Dau thu tuc
