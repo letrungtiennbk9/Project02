@@ -138,10 +138,10 @@ LaNamNhuan:
 			li $v0 0
 	Thoat:
 	
-	sw $ra ($sp)
-	sw $a0 4($sp)
-	sw $t1 8($sp)
-	sw $t2 12($sp)
+	lw $ra ($sp)
+	lw $a0 4($sp)
+	lw $t1 8($sp)
+	lw $t2 12($sp)
 	addi $sp $sp 16
 
 	jr $ra
