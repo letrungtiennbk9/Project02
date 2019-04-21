@@ -34,7 +34,7 @@ Tai_CanChi:
 	# DAU THU TUC
 	
 	# backup
-	addi $sp,$sp,-40
+	addi $sp,$sp,-28
 	sw $ra,($sp)
 	sw $t0,4($sp)
 	sw $t1,8($sp)
@@ -113,7 +113,7 @@ Tai_Ketthuc:
 	lw $a0,24($sp)
 	
 	# delete stack
-	addi $sp,$sp,40
+	addi $sp,$sp,28
 	
 	# 
 	jr $ra
