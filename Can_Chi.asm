@@ -80,8 +80,6 @@ Chi:
 	beq $t2,11,Mui
 	
 Tai_Ketthuc:
-
-	# CUOI THU TUC
 	
 	# XUAT KQ
 	li $v0,1
@@ -98,6 +96,8 @@ Tai_Ketthuc:
 	# CHI
 	move $a0,$t5
 	syscall
+	
+	# CUOI THU TUC
 	
 	# return can/chi
 	move $v0,$t4
