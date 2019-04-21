@@ -1,5 +1,5 @@
 .data 
-	output:.asciiz "\nKQ: "
+	output:.asciiz "Can chi: "
 	
 	Can_Canh:.asciiz"Canh "
 	Can_Tan:.asciiz"Tan "
@@ -45,8 +45,8 @@ Tai_CanChi:
 	
 	# THAN THU TUC
 	add $t0,$a0,$zero
-	addi $t1,$t1,10
-	addi $t2,$t2,12
+	addi $t1,$0,10
+	addi $t2,$0,12
 	
 	div $t0,$t1
 	mfhi $t1
