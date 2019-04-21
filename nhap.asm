@@ -5,8 +5,8 @@
 	suu_tb4: .asciiz "Du lieu khong hop le !\n"
 	dayArr: .word 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 .text
-	# - Chức năng: Cho phép người dùng nhập DAY, MONTH, YEAR
-	# - Trả về thanh ghi v0 chứa dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0))
+	# - Chức năng: Cho phép ngư�?i dùng nhập DAY, MONTH, YEAR
+	# - Trả v�? thanh ghi v0 chứa dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0))
 	# - Lấy giá trị từ thanh ghi v0 trước khi kết thúc bằng lệnh ($v0,10)
 	.globl suu_nhap
 suu_nhap: 
@@ -71,6 +71,7 @@ suu_accept:
 	add $v1, $a2, $zero
 	sw $v1, 8($v0)
 	j suu_ketthucham
+.globl suu_kiemtrahople
 suu_kiemtrahople:
 	addi	$sp, $sp, -32
 	# backup
