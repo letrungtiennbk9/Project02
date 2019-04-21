@@ -3,12 +3,110 @@
 	suu_tb2: .asciiz "Nhap MONTH: "
 	suu_tb3: .asciiz "Nhap YEAR: "
 	suu_tb4: .asciiz "Du lieu khong hop le !\n"
+	xd: .asciiz "\n"
+	suu_dd: .space 3
+	suu_mm: .space 3
+	suu_yyyy: .space 5
 	dayArr: .word 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 .text
-	# - Chức năng: Cho phép người dùng nhập DAY, MONTH, YEAR
-	# - Trả về thanh ghi v0 chứa dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0))
-	# - Lấy giá trị từ thanh ghi v0 trước khi kết thúc bằng lệnh ($v0,10)
-	.globl suu_nhap
+	# - Chuc nang: Cho phep nguoi dung nhap DAY, MONTH, YEAR tu ban phim
+	# - Tra ve thanh ghi v0 chua dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0)
+#-------------------------------------------------------------------------------------------------------
+.globl ChieuDaiChuoi
+ChieuDaiChuoi:
+	#Backup...
+	subi $sp $sp 12
+	sw $ra ($sp)
+	sw $s1 4($sp)
+	sw $a0 8($sp)
+	li $v0 0
+	lb $s1 ($a0)
+	ChieuDaiChuoi_Cond:
+	#beq $s1 ' ' ChieuDaiChuoi_Exit
+	bne $s1 $0 ChieuDaiChuoi_Loop
+	beq $s1 $0 ChieuDaiChuoi_Exit
+	ChieuDaiChuoi_Loop:
+		addi $v0 $v0 1
+		addi $a0 $a0 1
+		lb $s1 ($a0)
+		j ChieuDaiChuoi_Cond
+	ChieuDaiChuoi_Exit:
+	#Restore...
+	lw $ra ($sp)
+	lw $s1 4($sp)
+	lw $a0 8($sp)
+	addi $sp $sp 12
+
+	jr $ra
+.globl atoi
+atoi:
+	#Backup...
+	subi $sp $sp 32
+	sw $ra ($sp)
+	sw $a0 4($sp)
+	sw $t0 8($sp)
+	sw $s0 12($sp)
+	sw $s1 16($sp)
+	sw $t1 20($sp)
+	sw $t2 24($sp)
+	sw $v1 28($sp)
+	#Tim so chu so
+	jal ChieuDaiChuoi
+	move $s0 $v0
+	#t0 = 10^(soCS - 1)
+	li $t0 1
+	li $t2 10
+	subi $t1 $s0 1	#t1 = s0 - 1 = soCS - 1
+	atoi_Cond1:
+	bne $t1 $0 atoi_Loop1
+	beq $t1 $0 atoi_ExitLoop1
+	atoi_Loop1:
+		mult $t0 $t2
+		mflo $t0
+		subi $t1 $t1 1
+		j atoi_Cond1
+	atoi_ExitLoop1:
+	#Bat dau tinh toan
+	li $t1 0	#Index
+	li $v1 0	#ret
+	atoi_Cond:
+	bne $t1 $s0 atoi_Loop
+	beq $t1 $s0 atoi_ExitLoop
+	atoi_Loop:
+		lb $s1 ($a0)	#Chu so dau tien duoc tach dang ascii
+		beq $s1 ' ' atoi_ExitLoop
+		subi $s1 $s1 48	#Chuyen thanh int
+
+		#s1 = s1 * t0
+		mult $s1 $t0
+		mflo $s1
+
+		add $v1 $v1 $s1	#Cong don ket qua
+
+		addi $a0 $a0 1	#a0 tang len 1 dia chi
+
+		#t0 = t0 / 10 cho vong lap tiep theo
+		li $t2 10
+		div $t0 $t2
+		mflo $t0
+		addi $t1 $t1 1	#i++
+		
+		j atoi_Cond
+	atoi_ExitLoop:
+		move $v0 $v1
+	#Restore...
+	lw $ra ($sp)
+	lw $a0 4($sp)
+	lw $t0 8($sp)
+	lw $s0 12($sp)
+	lw $s1 16($sp)
+	lw $t1 20($sp)
+	lw $t2 24($sp)
+	lw $v1 28($sp)
+	addi $sp $sp 32
+	jr $ra
+#----------------------------------------------------------------------------------------------------------------
+.globl suu_nhap
 suu_nhap: 
 	# Dau thu tuc
 	addi $sp, $sp, -44
@@ -28,23 +126,41 @@ suu_nhap:
 	li $v0, 4
 	la $a0, suu_tb1
 	syscall
-	li $v0, 5
+	la $v0, 8
+	la $a0, suu_dd
+	li $a1, 3
 	syscall
+	jal atoi
 	move $t0, $v0
+	li $v0, 4
+	la $a0, xd
+	syscall
 	#nhap MONTH
 	li $v0, 4
 	la $a0, suu_tb2
 	syscall
-	li $v0, 5
+	la $v0, 8
+	la $a0, suu_mm
+	li $a1, 3
 	syscall
-	move $t1, $v0
+	jal atoi
+	move $t1 $v0
+	li $v0, 4
+	la $a0, xd
+	syscall
 	# nhap YEAR
 	li $v0, 4
 	la $a0, suu_tb3
 	syscall
-	li $v0, 5
+	la $v0, 8
+	la $a0, suu_yyyy
+	li $a1, 5
 	syscall
+	jal atoi
 	move $t2, $v0
+	li $v0, 4
+	la $a0, xd
+	syscall
 	# Than thu tuc
 	move	$a0, $t0 
 	move	$a1, $t1 
@@ -53,13 +169,13 @@ suu_nhap:
 	jal suu_kiemtrahople
 	bne $v0,0,suu_accept
 	bne $v0, 1, suu_unaccept
-	.globl suu_unaccept
+.globl suu_unaccept
 suu_unaccept:
 	li $v0, 4
 	la $a0, suu_tb4
 	syscall
 	j suu_nhap
-	.globl suu_accept
+.globl suu_accept
 suu_accept:
 	# tra ve v0
 	move $t3, $a0
@@ -73,21 +189,26 @@ suu_accept:
 	add $v1, $a2, $zero
 	sw $v1, 8($v0)
 	j suu_ketthucham
-	.globl suu_kiemtrahople
+.globl suu_kiemtrahople
 suu_kiemtrahople:
-	addi	$sp, $sp, -32
+	addi	$sp, $sp, -40
 	# backup
-	sw	$a0, 28($sp)
-	sw	$ra, 24($sp)
-	sw	$t0, 20($sp)
-	sw	$t1, 16($sp)
-	sw	$t2, 12($sp)
-	sw	$t3, 8($sp)
-	sw	$t4, 4($sp)
+	sw 	$t6, 36($sp)
+	sw	$a0, 32($sp)
+	sw	$ra, 28($sp)
+	sw	$t0, 24($sp)
+	sw	$t1, 20($sp)
+	sw	$t2, 16($sp)
+	sw	$t3, 12($sp)
+	sw	$t4, 8($sp)
+	sw 	$t5, 4($sp)
 	sw	$s0, 0($sp)
 	move	$t0, $a0 # dd
 	move 	$t1, $a1 # mm
 	move 	$t2, $a2 # yyyy
+	li $t6, 1
+	slt $t5,$t0,$t6 # kiem tra dd < 1
+	bne $t5,$0,suu_khonghople
 	li $t3, 13
 	slt $t3, $t1, $t3 # kiem tra xem mm < 13?
 	beq $t3,$0,suu_khonghople # mm > 13
@@ -106,32 +227,34 @@ suu_kiemtrahople:
 	beq	$v0, $0, suu_kiemtradate 
 	addi	$s0, $s0, 1 
 	j 	suu_kiemtradate
-	.globl suu_kiemtradate
+.globl suu_kiemtradate
 suu_kiemtradate: # Kiem tra xem so ngay cua Thang da nhap co phu hop voi Ngay da nhap hay khong
 	slt	$t4, $s0, $t0
 	bne	$t4, $0, suu_khonghople
 	j	suu_hople
-	.globl suu_hople
+.globl suu_hople
 suu_hople:
 	li $v0, 1
 	j suu_kt
-	.globl suu_khonghople
+.globl suu_khonghople
 suu_khonghople:
 	li $v0,0
 	j suu_kt
-	.globl suu_kt
+.globl suu_kt
 suu_kt:
-	lw	$a0, 28($sp)
-	lw	$ra, 24($sp)
-	lw	$t0, 20($sp)
-	lw	$t1, 16($sp)
-	lw	$t2, 12($sp)
-	lw	$t3, 8($sp)
-	lw	$t4, 4($sp)
+	lw	$a0, 32($sp)
+	lw	$ra, 28($sp)
+	lw	$t0, 24($sp)
+	lw	$t1, 20($sp)
+	lw	$t2, 16($sp)
+	lw	$t3, 12($sp)
+	lw	$t4, 8($sp)
+	lw 	$t5, 4($sp)
 	lw	$s0, 0($sp)
-	addi	$sp, $sp, 32
+	lw 	$t6, 36($sp)
+	addi	$sp, $sp, 40
 	jr 	$ra
-	.globl suu_ktnamnhuan
+.globl suu_ktnamnhuan
 suu_ktnamnhuan:
 	addi	$sp, $sp, -12
 	sw	$ra, 8($sp)
@@ -152,22 +275,22 @@ suu_ktnamnhuan:
 	div	$t1, $t0
 	mfhi	$t0
 	beq	$t0, $0, suu_false
-	.globl suu_true
+.globl suu_true
 suu_true:
 	li	$v0, 1
 	j	suu_break
-	.globl suu_false
+.globl suu_false
 suu_false:
 	li	$v0, 0
-	j	suu_break	
-	.globl suu_break
+	j	suu_break
+.globl suu_break
 suu_break:
 	lw	$ra, 8($sp)
 	lw	$t0, 4($sp)
 	lw	$t1, 0($sp)
 	addi	$sp, $sp, 12
 	jr	$ra
-	.globl suu_ketthucham
+.globl suu_ketthucham
 suu_ketthucham:
 	# cuoi thu tuc
 	#restore
