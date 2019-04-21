@@ -32,7 +32,6 @@ Tai_CanChi:
 	# Tra ve: Can -> $v0, Chi -> $v1
 	# 
 	# DAU THU TUC
-	addi $a0,$0,2019
 	
 	# backup
 	addi $sp,$sp,-40
