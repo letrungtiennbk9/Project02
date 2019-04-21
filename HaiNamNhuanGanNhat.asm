@@ -1,140 +1,139 @@
 .data
-	Tai_HaiNamNhuan: .asciiz "Hai nam nhuan gan nhat voi "
-	Tai_2LeapYearKQ: .asciiz " la: "
-	Tai_LeapAnd: .asciiz" va "
+	TwoLeap_print1: .asciiz "Hai nam nhuan gan voi "
+	TwoLeap_is: .asciiz " la "
+	TwoLeap_and: .asciiz " va "
 .text
 	.globl Tai_HaiNamNhuanGanNhat
+
 Tai_HaiNamNhuanGanNhat:
-	# Tim hai nam nhuan gan nhat truoc va sau
-	# Nam truyen vao : $a0
-	# Ket qua: hai nam nhuan gan nhat lan luot luu vao $v0 va $v1
+	# Tim hai nam nhuan gan nhat voi nam truyen vao
+	# Nam truyen vao $a0
+	# Ket qua tra ve: $v0 va $v1
 	
 	# DAU THU TUC
-	
 	# backup
-	addi $sp,$sp,-28
-	sw $s0,($sp)	# $s0 is the smaller leap year
-	sw $s1,4($sp)	# $s1 is the larger leap year 
-	sw $s2,8($sp)	# $s2 as 4,100 and 400 
-	sw $t0,12($sp)	# $t0 is template year to find smaller and larger leap year when the year is not leap year
-	sw $t1,16($sp)	# $t1 is $a0, also the year
-	sw $t2,20($sp)  # $t2 is $hi when (the year) / 4
-	sw $t3,24($sp)  # $t3 is $hi when (the year) / 100
-	sw $t4,28($sp)  # $t4 is $hi when (the year) / 400
-		
-	# THAN THU TUC
-	add $t1,$a0,$0
-	addi $s2,$s2,4
-	
-	slt $t0,$t1,$s2
-	beq $t0,1,LessThanFour
+	addi $sp,$0,-16
+
+	sw $ra,0($sp)
+	sw $a0,4($sp)
+	sw $t0,8($sp)
+	sw $t1,12($sp)
+
+	# create stack
+	#addi $sp,$zero,-40
+
+	addi $t0,$0,4
+	slt $s0,$a0,$t0
+	beq $s0,1,LessThanFour
 	j NotLessThanFour
 	
-LessThanFour:
-	li $s0,4
-	li $s1,8
-	j Tai_2LeapEnd
+	LessThanFour:
+		addi $t0,$0,4
+		addi $t1,$0,8
+		j TwoLeap_return
+	
+	NotLessThanFour:
+		beq $a0,4,isFour
+		j BiggerThanFour
+	
+		isFour:
+			addi $t0,$0,8
+			addi $t1,$0,12
+			j TwoLeap_return
 
-NotLessThanFour:
-	beq $t1,$s2,IsFour
-	j LargeThanFour
+		BiggerThanFour:	
+			# Kiem tra $a0 co phai nam nhuan
+			jal LaNamNhuan
+			beq $v0,1,pre_Leap
+			j pre_notLeap
 
-IsFour:
-	li $s0,8
-	li $s1,12
-	j Tai_2LeapEnd
-	
-LargeThanFour:
-	# $s2 = 4
-	div $t1,$s2
-	mfhi $t2
-	
-	li $s2,100
-	div $t1,$s2
-	mfhi $t3
-	
-	li $s2,400
-	div $t1,$s2
-	mfhi $t4
-	
-	beq $t4,$0,Leap1
-	j isLeap2
-	
-Leap1:
-	subi $s0,$t1,4
-	addi $s1,$t1,4
-	j Tai_2LeapEnd
-	
-isLeap2:
-	beq $t2,$0,nextLeap2
-	j notLeap0
-	
-nextLeap2:
-	beq $t3,$0,notLeap0
-	j Leap1
+			# is Leap
+			pre_Leap:
+				subi $t0,$a0,4
+				addi $t1,$a0,4
+				j Leap_Smaller
 
-notLeap0:
-	addi $t0,$t1,4
-	addi $t2,$0,4	
-	j notLeap1
+				Leap_Smaller:
+					move $a0,$t0
+					jal LaNamNhuan
+					beq $v0,$0,re_Leap_Smaller
+					j Leap_Bigger
+
+				re_Leap_Smaller:
+					subi $t0,$t0,4
+					j Leap_Smaller
+
+				Leap_Bigger:
+					move $a0,$t1
+					jal LaNamNhuan
+					beq $v0,$0,re_Leap_Bigger
+					j TwoLeap_return
+
+				re_Leap_Bigger:
+					addi $t1,$t1,4
+					j Leap_Bigger
+
+			# is not Leap
+			pre_notLeap:
+				subi $t0,$a0,1
+				j NotLeap_Smaller
+
+				NotLeap_Smaller:	
+					move $a0,$t0
+					jal LaNamNhuan
+					beq $v0,$0,re_NotLeap_Smaller
+
+					addi $t1,$t0,4
+					j NotLeap_Bigger
+
+				re_NotLeap_Smaller:
+					subi $t0,$t0,1
+					j NotLeap_Smaller
+
+				NotLeap_Bigger:	
+					move $a0,$t1
+					jal LaNamNhuan
+					beq $v0,$0,re_NotLeap_Bigger
+
+					j TwoLeap_return
+
+				re_NotLeap_Bigger:
+					addi $t1,$t1,4
+					j NotLeap_Bigger
 	
-notLeap1:
-	div $t0,$t2
-	mfhi $s1
-	beq $s1,$0,notLeapEnd
-	subi $t0,$t0,1
-	j notLeap1
-	
-notLeapEnd:
-	sub $s0,$t0,$t2
-	add $s1,$t0,$0
-	j Tai_2LeapEnd
-	
-Tai_2LeapEnd:
-	
-	# CUOI THU TUC
+TwoLeap_return:
 	li $v0,4
-	la $a0,Tai_HaiNamNhuan
+	la $a0,TwoLeap_print1
 	syscall
 	
+	li $v0,1
+	lw $a0,4($sp)
+	syscall
+
+	li $v0,4
+	la $a0,TwoLeap_is
+	syscall
+
+	li $v0,1
+	move $a0,$t0
+	syscall
+
+	li $v0,4
+	la $a0,TwoLeap_and
+	syscall
+
 	li $v0,1
 	move $a0,$t1
 	syscall
-	
-	li $v0,4
-	la $a0,Tai_2LeapYearKQ
-	syscall
-		
-	li $v0,1
-	move $a0,$s0
-	syscall
-	
-	li $v0,4
-	la $a0,Tai_LeapAnd
-	syscall
-	
-	li $v0,1
-	move $a0,$s1
-	syscall
-	
-	# return
-	move $v0,$s0
-	move $v1,$s1
-	
-	# restore
-	lw $s0,($sp)
-	lw $s1,4($sp)
-	lw $s2,8($sp)
-	lw $t0,12($sp)
-	lw $t1,16($sp)
-	lw $t2,20($sp)
-	lw $t3,24($sp)
-	lw $t4,28($sp)
-	
-	#delete stack
-	addi $sp,$sp,28
-	
+
+	move $v0,$t0
+	move $v1,$t1
+
+	lw $ra,0($sp)
+	lw $a0,4($sp)
+	lw $t0,8($sp)
+	lw $t1,12($sp)
+
+	addi $sp,$sp,16
+
 	jr $ra
-	
-	
-	
