@@ -1,6 +1,6 @@
 .data
 	TwoLeap_print1: .asciiz "Hai nam nhuan gan voi "
-	TwoLeap_is: .asciiz " la "
+	TwoLeap_is: .asciiz " nhat la "
 	TwoLeap_and: .asciiz " va "
 .text
 	.globl Tai_HaiNamNhuanGanNhat
