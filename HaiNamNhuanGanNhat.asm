@@ -21,7 +21,9 @@ Tai_HaiNamNhuanGanNhat:
 
 	# create stack
 	#addi $sp,$zero,-40
-
+	
+	# THAN THU TUC
+	
 	addi $t0,$0,4
 	slt $s0,$a0,$t0
 	beq $s0,1,LessThanFour
@@ -125,15 +127,19 @@ TwoLeap_return:
 	li $v0,1
 	move $a0,$t1
 	syscall
-
+	
+	# CUOI THU TUC
+	# return
 	move $v0,$t0
 	move $v1,$t1
 
+	# restore
 	lw $ra,0($sp)
 	lw $a0,4($sp)
 	lw $t0,8($sp)
 	lw $t1,12($sp)
 
+	# delete stack
 	addi $sp,$sp,16
 
 	jr $ra
