@@ -7,8 +7,8 @@
 .text
 	# - Truyen dd,mm,yyyy vao cac thanh ghi tuong ung a0, a1, a2
 	# - Tra ve thanh ghi v0 chua dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0))
-.globl suu_Nhap_ThamSo
-suu_Nhap_ThamSo:
+	.globl suu_Nhap_ThamSo
+suu_Nhap_ThamSo: 
 	# Dau thu tuc
 	addi $sp, $sp, -44
 	# backup
@@ -28,10 +28,13 @@ suu_Nhap_ThamSo:
 	jal suu_kiemtrahople
 	bne $v0,0,suu_accept
 	bne $v0, 1, suu_unaccept
+	.globl suu_unaccept
 suu_unaccept:
 	li $v0, 4
 	la $a0, suu_tb4
 	syscall
+	j suu_nhap
+	.globl suu_accept
 suu_accept:
 	# tra ve v0
 	move $t3, $a0
@@ -45,6 +48,7 @@ suu_accept:
 	add $v1, $a2, $zero
 	sw $v1, 8($v0)
 	j suu_ketthucham
+	.globl suu_kiemtrahople
 suu_kiemtrahople:
 	addi	$sp, $sp, -32
 	# backup
@@ -74,19 +78,23 @@ suu_kiemtrahople:
 	bne $t1, $t4, suu_kiemtradate
 	lw  $a0, 28($sp)
 	jal suu_ktnamnhuan
-	beq	$v0, $0, suu_kiemtradate
-	addi	$s0, $s0, 1
+	beq	$v0, $0, suu_kiemtradate 
+	addi	$s0, $s0, 1 
 	j 	suu_kiemtradate
+	.globl suu_kiemtradate
 suu_kiemtradate: # Kiem tra xem so ngay cua Thang da nhap co phu hop voi Ngay da nhap hay khong
 	slt	$t4, $s0, $t0
 	bne	$t4, $0, suu_khonghople
 	j	suu_hople
+	.globl suu_hople
 suu_hople:
 	li $v0, 1
 	j suu_kt
+	.globl suu_khonghople
 suu_khonghople:
 	li $v0,0
 	j suu_kt
+	.globl suu_kt
 suu_kt:
 	lw	$a0, 28($sp)
 	lw	$ra, 24($sp)
@@ -98,6 +106,7 @@ suu_kt:
 	lw	$s0, 0($sp)
 	addi	$sp, $sp, 32
 	jr 	$ra
+	.globl suu_ktnamnhuan
 suu_ktnamnhuan:
 	addi	$sp, $sp, -12
 	sw	$ra, 8($sp)
@@ -118,18 +127,22 @@ suu_ktnamnhuan:
 	div	$t1, $t0
 	mfhi	$t0
 	beq	$t0, $0, suu_false
+	.globl suu_true
 suu_true:
 	li	$v0, 1
 	j	suu_break
+	.globl suu_false
 suu_false:
 	li	$v0, 0
-	j	suu_break
+	j	suu_break	
+	.globl suu_break
 suu_break:
 	lw	$ra, 8($sp)
 	lw	$t0, 4($sp)
 	lw	$t1, 0($sp)
 	addi	$sp, $sp, 12
 	jr	$ra
+	.globl suu_ketthucham
 suu_ketthucham:
 	# cuoi thu tuc
 	#restore
