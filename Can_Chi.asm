@@ -1,5 +1,5 @@
 .data 
-	output:.asciiz "Can chi: "
+	output:.asciiz " la nam "
 	
 	Can_Canh:.asciiz"Canh "
 	Can_Tan:.asciiz"Tan "
@@ -32,6 +32,7 @@ Tai_CanChi:
 	# Tra ve: Can -> $v0, Chi -> $v1
 	# 
 	# DAU THU TUC
+	addi $a0,$0,2019
 	
 	# backup
 	addi $sp,$sp,-40
@@ -84,6 +85,9 @@ Tai_Ketthuc:
 	# CUOI THU TUC
 	
 	# XUAT KQ
+	li $v0,1
+	syscall
+
 	li $v0,4
 	la $a0,output
 	syscall
