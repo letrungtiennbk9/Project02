@@ -1,4 +1,4 @@
-.data
+.data 
 	
 	Can_Canh:.asciiz"Canh "
 	Can_Tan:.asciiz"Tan "
@@ -31,9 +31,10 @@ Tai_CanChi:
 	# Tra ve: Can -> $v0, Chi -> $v1
 	# 
 	# DAU THU TUC
-	# create stack	
-	addi $sp,$sp,-28
 	
+	# create stack	
+	addi $sp,$sp,-28 
+
 	# backup
 	sw $ra,($sp)
 	sw $t0,4($sp)
@@ -80,22 +81,6 @@ Chi:
 	beq $t2,11,Mui
 	
 Tai_Ketthuc:
-	
-	# XUAT KQ
-	li $v0,1
-	#syscall
-
-	li $v0,4
-	la $a0,output
-	#syscall
-	
-	# CAN
-	move $a0,$t4
-	#syscall
-	
-	# CHI
-	move $a0,$t5
-	#syscall
 	
 	# CUOI THU TUC
 	
