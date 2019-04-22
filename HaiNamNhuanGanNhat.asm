@@ -1,7 +1,5 @@
 .data
-	TwoLeap_print1: .asciiz "Hai nam nhuan gan voi "
-	TwoLeap_is: .asciiz " nhat la "
-	TwoLeap_and: .asciiz " va "
+
 .text
 	.globl Tai_HaiNamNhuanGanNhat
 
@@ -11,22 +9,22 @@ Tai_HaiNamNhuanGanNhat:
 	# Ket qua tra ve: $v0 va $v1
 	
 	# DAU THU TUC
-	# backup
-	addi $sp,$sp,-16
 
+	# create stack
+	addi $sp,$sp,-16
+	
+	# backup
 	sw $ra,0($sp)
 	sw $a0,4($sp)
 	sw $t0,8($sp)
 	sw $t1,12($sp)
-
-	# create stack
-	#addi $sp,$zero,-40
+	sw $t2,16($sp)
 	
 	# THAN THU TUC
 	
 	addi $t0,$0,4
-	slt $s0,$a0,$t0
-	beq $s0,1,LessThanFour
+	slt $t2,$a0,$t0
+	beq $t2,1,LessThanFour
 	j NotLessThanFour
 	
 	LessThanFour:
@@ -104,29 +102,6 @@ Tai_HaiNamNhuanGanNhat:
 					j NotLeap_Bigger
 	
 TwoLeap_return:
-	li $v0,4
-	la $a0,TwoLeap_print1
-	#syscall
-	
-	li $v0,1
-	lw $a0,4($sp)
-	#syscall
-
-	li $v0,4
-	la $a0,TwoLeap_is
-	#syscall
-
-	li $v0,1
-	move $a0,$t0
-	#syscall
-
-	li $v0,4
-	la $a0,TwoLeap_and
-	#syscall
-
-	li $v0,1
-	move $a0,$t1
-	#syscall
 	
 	# CUOI THU TUC
 	# return
