@@ -83,19 +83,19 @@ Tai_Ketthuc:
 	
 	# XUAT KQ
 	li $v0,1
-	syscall
+	#syscall
 
 	li $v0,4
 	la $a0,output
-	syscall
+	#syscall
 	
 	# CAN
 	move $a0,$t4
-	syscall
+	#syscall
 	
 	# CHI
 	move $a0,$t5
-	syscall
+	#syscall
 	
 	# CUOI THU TUC
 	
