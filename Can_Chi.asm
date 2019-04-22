@@ -1,5 +1,5 @@
 .data 
-	output:.asciiz "\nKQ: "
+	output:.asciiz " la nam "
 	
 	Can_Canh:.asciiz"Canh "
 	Can_Tan:.asciiz"Tan "
@@ -34,7 +34,7 @@ Tai_CanChi:
 	# DAU THU TUC
 	
 	# backup
-	addi $sp,$sp,-40
+	addi $sp,$sp,-28
 	sw $ra,($sp)
 	sw $t0,4($sp)
 	sw $t1,8($sp)
@@ -45,8 +45,8 @@ Tai_CanChi:
 	
 	# THAN THU TUC
 	add $t0,$a0,$zero
-	addi $t1,$t1,10
-	addi $t2,$t2,12
+	addi $t1,$0,10
+	addi $t2,$0,12
 	
 	div $t0,$t1
 	mfhi $t1
@@ -80,21 +80,24 @@ Chi:
 	beq $t2,11,Mui
 	
 Tai_Ketthuc:
-
-	# CUOI THU TUC
 	
 	# XUAT KQ
+	li $v0,1
+	#syscall
+
 	li $v0,4
 	la $a0,output
-	syscall
+	#syscall
 	
 	# CAN
 	move $a0,$t4
-	syscall
+	#syscall
 	
 	# CHI
 	move $a0,$t5
-	syscall
+	#syscall
+	
+	# CUOI THU TUC
 	
 	# return can/chi
 	move $v0,$t4
@@ -110,7 +113,7 @@ Tai_Ketthuc:
 	lw $a0,24($sp)
 	
 	# delete stack
-	addi $sp,$sp,40
+	addi $sp,$sp,28
 	
 	# 
 	jr $ra

@@ -15,6 +15,7 @@ tien_tbKQ: 	.asciiz "Ket qua: "
 tien_tbNhuan: .asciiz "Nam nhuan"
 tien_tbKhongNhuan: .asciiz "Khong nhuan"
 tien_tbNhapTime2: .asciiz "--Nhap time2:--\n"
+tien_space: .asciiz " "
 tien_tenFileIn: .asciiz "input.txt"
 tien_tenFileOut: .asciiz "output.txt"	
 	.text
@@ -151,8 +152,24 @@ main:
 
 		j switch
 	Cau6:
+		li $v0 4
+		la $a0 tien_tbKQ
+		syscall
+
 		lw $a0 8($s0)
 		jal Tai_CanChi
+		move $t0 $v0
+		move $t1 $v1
+
+		##In Can
+		li $v0 4
+		move $a0 $t0
+		syscall
+		
+		#In Chi
+		li $v0 4
+		move $a0 $t1
+		syscall
 
 		j switch
 
@@ -178,13 +195,41 @@ main:
 
 		j switch
 	Cau8:
+		li $v0 4
+		la $a0 tien_tbKQ
+		syscall
+		
 		lw $a0 8($s0)
 		jal Tai_HaiNamNhuanGanNhat
+		move $t0 $v0
+		move $t1 $v1
+
+		#In nam nhuan thu nhat
+		li $v0 1
+		move $a0 $t0
+		syscall
+
+		#In space
+		li $v0 4
+		la $a0 tien_space
+		syscall
+		
+		#In nam nhuan thu 2
+		li $v0 1
+		move $a0 $t1
+		syscall
 
 		j switch
 	Cau9:
+		li $v0 4
+		la $a0 tien_tbKQ
+		syscall
+
 		la $a0 tien_tenFileIn
 		la $a1 tien_tenFileOut
+		jal NhapXuatFile
+		
+		j switch
 	Thoat:
 		li $v0 10
 		syscall
