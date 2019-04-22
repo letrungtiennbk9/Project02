@@ -1,5 +1,4 @@
 .data 
-	output:.asciiz " la nam "
 	
 	Can_Canh:.asciiz"Canh "
 	Can_Tan:.asciiz"Tan "
@@ -80,22 +79,6 @@ Chi:
 	beq $t2,11,Mui
 	
 Tai_Ketthuc:
-	
-	# XUAT KQ
-	li $v0,1
-	#syscall
-
-	li $v0,4
-	la $a0,output
-	#syscall
-	
-	# CAN
-	move $a0,$t4
-	#syscall
-	
-	# CHI
-	move $a0,$t5
-	#syscall
 	
 	# CUOI THU TUC
 	
