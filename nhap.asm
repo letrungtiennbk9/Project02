@@ -11,14 +11,6 @@
 .text
 	# - Chuc nang: Cho phep nguoi dung nhap DAY, MONTH, YEAR tu ban phim
 	# - Tra ve thanh ghi v0 chua dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0)
-.globl main
-main:
-	jal suu_nhap
-	lw $t0,0($v0)
-	lw $t1,4($v0)
-	lw $t2, 8($v0)
-	li $v0, 10
-	syscall
 .globl suu_nhap
 suu_nhap: 
 	# Dau thu tuc
