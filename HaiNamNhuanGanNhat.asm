@@ -12,7 +12,7 @@ Tai_HaiNamNhuanGanNhat:
 	
 	# DAU THU TUC
 	# backup
-	addi $sp,$0,-16
+	addi $sp,$sp,-16
 
 	sw $ra,0($sp)
 	sw $a0,4($sp)
@@ -106,27 +106,27 @@ Tai_HaiNamNhuanGanNhat:
 TwoLeap_return:
 	li $v0,4
 	la $a0,TwoLeap_print1
-	syscall
+	#syscall
 	
 	li $v0,1
 	lw $a0,4($sp)
-	syscall
+	#syscall
 
 	li $v0,4
 	la $a0,TwoLeap_is
-	syscall
+	#syscall
 
 	li $v0,1
 	move $a0,$t0
-	syscall
+	#syscall
 
 	li $v0,4
 	la $a0,TwoLeap_and
-	syscall
+	#syscall
 
 	li $v0,1
 	move $a0,$t1
-	syscall
+	#syscall
 	
 	# CUOI THU TUC
 	# return
