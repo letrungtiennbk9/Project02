@@ -864,6 +864,11 @@ LaNamNhuan:
 	sw $t1 8($sp)
 	sw $t2 12($sp)
 
+	li $t1 400
+	div $a0 $t1
+	mfhi $t2
+	beq $t2 $0 ReturnTrue
+
 	li $t1 4
 	div $a0 $t1
 	mfhi $t2
