@@ -1,5 +1,4 @@
-.data 
-	output:.asciiz " la nam "
+.data
 	
 	Can_Canh:.asciiz"Canh "
 	Can_Tan:.asciiz"Tan "
@@ -32,9 +31,10 @@ Tai_CanChi:
 	# Tra ve: Can -> $v0, Chi -> $v1
 	# 
 	# DAU THU TUC
+	# create stack	
+	addi $sp,$sp,-28
 	
 	# backup
-	addi $sp,$sp,-28
 	sw $ra,($sp)
 	sw $t0,4($sp)
 	sw $t1,8($sp)
