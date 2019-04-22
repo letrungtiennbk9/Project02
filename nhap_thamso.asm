@@ -1,4 +1,4 @@
-.data: "
+.data
 	suu_tb4: .asciiz "Du lieu khong hop le !\n"
 	dayArr: .word 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 .text

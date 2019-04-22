@@ -11,101 +11,6 @@
 .text
 	# - Chuc nang: Cho phep nguoi dung nhap DAY, MONTH, YEAR tu ban phim
 	# - Tra ve thanh ghi v0 chua dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0)
-#-------------------------------------------------------------------------------------------------------
-.globl ChieuDaiChuoi
-ChieuDaiChuoi:
-	#Backup...
-	subi $sp $sp 12
-	sw $ra ($sp)
-	sw $s1 4($sp)
-	sw $a0 8($sp)
-	li $v0 0
-	lb $s1 ($a0)
-	ChieuDaiChuoi_Cond:
-	#beq $s1 ' ' ChieuDaiChuoi_Exit
-	bne $s1 $0 ChieuDaiChuoi_Loop
-	beq $s1 $0 ChieuDaiChuoi_Exit
-	ChieuDaiChuoi_Loop:
-		addi $v0 $v0 1
-		addi $a0 $a0 1
-		lb $s1 ($a0)
-		j ChieuDaiChuoi_Cond
-	ChieuDaiChuoi_Exit:
-	#Restore...
-	lw $ra ($sp)
-	lw $s1 4($sp)
-	lw $a0 8($sp)
-	addi $sp $sp 12
-
-	jr $ra
-.globl atoi
-atoi:
-	#Backup...
-	subi $sp $sp 32
-	sw $ra ($sp)
-	sw $a0 4($sp)
-	sw $t0 8($sp)
-	sw $s0 12($sp)
-	sw $s1 16($sp)
-	sw $t1 20($sp)
-	sw $t2 24($sp)
-	sw $v1 28($sp)
-	#Tim so chu so
-	jal ChieuDaiChuoi
-	move $s0 $v0
-	#t0 = 10^(soCS - 1)
-	li $t0 1
-	li $t2 10
-	subi $t1 $s0 1	#t1 = s0 - 1 = soCS - 1
-	atoi_Cond1:
-	bne $t1 $0 atoi_Loop1
-	beq $t1 $0 atoi_ExitLoop1
-	atoi_Loop1:
-		mult $t0 $t2
-		mflo $t0
-		subi $t1 $t1 1
-		j atoi_Cond1
-	atoi_ExitLoop1:
-	#Bat dau tinh toan
-	li $t1 0	#Index
-	li $v1 0	#ret
-	atoi_Cond:
-	bne $t1 $s0 atoi_Loop
-	beq $t1 $s0 atoi_ExitLoop
-	atoi_Loop:
-		lb $s1 ($a0)	#Chu so dau tien duoc tach dang ascii
-		beq $s1 ' ' atoi_ExitLoop
-		subi $s1 $s1 48	#Chuyen thanh int
-
-		#s1 = s1 * t0
-		mult $s1 $t0
-		mflo $s1
-
-		add $v1 $v1 $s1	#Cong don ket qua
-
-		addi $a0 $a0 1	#a0 tang len 1 dia chi
-
-		#t0 = t0 / 10 cho vong lap tiep theo
-		li $t2 10
-		div $t0 $t2
-		mflo $t0
-		addi $t1 $t1 1	#i++
-		
-		j atoi_Cond
-	atoi_ExitLoop:
-		move $v0 $v1
-	#Restore...
-	lw $ra ($sp)
-	lw $a0 4($sp)
-	lw $t0 8($sp)
-	lw $s0 12($sp)
-	lw $s1 16($sp)
-	lw $t1 20($sp)
-	lw $t2 24($sp)
-	lw $v1 28($sp)
-	addi $sp $sp 32
-	jr $ra
-#----------------------------------------------------------------------------------------------------------------
 .globl suu_nhap
 suu_nhap: 
 	# Dau thu tuc
@@ -166,17 +71,17 @@ suu_nhap:
 	move	$a1, $t1 
 	move	$a2, $t2 
 	# Kiem tra tinh hop le
-	jal suu_kiemtrahople
-	bne $v0,0,suu_accept
-	bne $v0, 1, suu_unaccept
-.globl suu_unaccept
-suu_unaccept:
+	jal nhap_suu_kiemtrahople
+	bne $v0,0,nhap_suu_accept
+	bne $v0, 1, nhap_suu_unaccept
+.globl nhap_suu_unaccept
+nhap_suu_unaccept:
 	li $v0, 4
 	la $a0, suu_tb4
 	syscall
 	j suu_nhap
-.globl suu_accept
-suu_accept:
+.globl nhap_suu_accept
+nhap_suu_accept:
 	# tra ve v0
 	move $t3, $a0
 	la $a0, 12
@@ -188,9 +93,9 @@ suu_accept:
 	sw $v1, 4($v0)
 	add $v1, $a2, $zero
 	sw $v1, 8($v0)
-	j suu_ketthucham
-.globl suu_kiemtrahople
-suu_kiemtrahople:
+	j nhap_suu_ketthucham
+.globl nhap_suu_kiemtrahople
+nhap_suu_kiemtrahople:
 	addi	$sp, $sp, -40
 	# backup
 	sw 	$t6, 36($sp)
@@ -208,10 +113,10 @@ suu_kiemtrahople:
 	move 	$t2, $a2 # yyyy
 	li $t6, 1
 	slt $t5,$t0,$t6 # kiem tra dd < 1
-	bne $t5,$0,suu_khonghople
+	bne $t5,$0,nhap_suu_khonghople
 	li $t3, 13
 	slt $t3, $t1, $t3 # kiem tra xem mm < 13?
-	beq $t3,$0,suu_khonghople # mm > 13
+	beq $t3,$0,nhap_suu_khonghople # mm > 13
 
 	# Kiem tra DAY
 	la	$s0, dayArr
@@ -221,27 +126,27 @@ suu_kiemtrahople:
 	lw	$s0, ($s0) # so ngay cua THANG da nhap
 
 	li  $t4, 2
-	bne $t1, $t4, suu_kiemtradate
+	bne $t1, $t4, nhap_suu_kiemtradate
 	lw  $a0, 28($sp)
-	jal suu_ktnamnhuan
-	beq	$v0, $0, suu_kiemtradate 
+	jal nhap_suu_ktnamnhuan
+	beq	$v0, $0, nhap_suu_kiemtradate 
 	addi	$s0, $s0, 1 
-	j 	suu_kiemtradate
-.globl suu_kiemtradate
-suu_kiemtradate: # Kiem tra xem so ngay cua Thang da nhap co phu hop voi Ngay da nhap hay khong
+	j 	nhap_suu_kiemtradate
+.globl nhap_suu_kiemtradate
+nhap_suu_kiemtradate: # Kiem tra xem so ngay cua Thang da nhap co phu hop voi Ngay da nhap hay khong
 	slt	$t4, $s0, $t0
-	bne	$t4, $0, suu_khonghople
-	j	suu_hople
-.globl suu_hople
-suu_hople:
+	bne	$t4, $0, nhap_suu_khonghople
+	j	nhap_suu_hople
+.globl nhap_suu_hople
+nhap_suu_hople:
 	li $v0, 1
-	j suu_kt
-.globl suu_khonghople
-suu_khonghople:
+	j nhap_suu_kt
+.globl nhap_suu_khonghople
+nhap_suu_khonghople:
 	li $v0,0
-	j suu_kt
-.globl suu_kt
-suu_kt:
+	j nhap_suu_kt
+.globl nhap_suu_kt
+nhap_suu_kt:
 	lw	$a0, 32($sp)
 	lw	$ra, 28($sp)
 	lw	$t0, 24($sp)
@@ -254,8 +159,8 @@ suu_kt:
 	lw 	$t6, 36($sp)
 	addi	$sp, $sp, 40
 	jr 	$ra
-.globl suu_ktnamnhuan
-suu_ktnamnhuan:
+.globl nhap_suu_ktnamnhuan
+nhap_suu_ktnamnhuan:
 	addi	$sp, $sp, -12
 	sw	$ra, 8($sp)
 	sw	$t0, 4($sp)
@@ -264,34 +169,34 @@ suu_ktnamnhuan:
 	li	$t0, 400
 	div	$t1, $t0
 	mfhi	$t0
-	beq 	$t0, $0, suu_true
+	beq 	$t0, $0, nhap_suu_true
 
 	li	$t0, 4
 	div	$t1, $t0
 	mfhi	$t0
-	bne 	$t0, $0, suu_false
+	bne 	$t0, $0, nhap_suu_false
 
 	li	$t0, 100
 	div	$t1, $t0
 	mfhi	$t0
-	beq	$t0, $0, suu_false
-.globl suu_true
-suu_true:
+	beq	$t0, $0, nhap_suu_false
+.globl nhap_suu_true
+nhap_suu_true:
 	li	$v0, 1
-	j	suu_break
-.globl suu_false
-suu_false:
+	j	nhap_suu_break
+.globl nhap_suu_false
+nhap_suu_false:
 	li	$v0, 0
-	j	suu_break
-.globl suu_break
-suu_break:
+	j	nhap_suu_break
+.globl nhap_suu_break
+nhap_suu_break:
 	lw	$ra, 8($sp)
 	lw	$t0, 4($sp)
 	lw	$t1, 0($sp)
 	addi	$sp, $sp, 12
 	jr	$ra
-.globl suu_ketthucham
-suu_ketthucham:
+.globl nhap_suu_ketthucham
+nhap_suu_ketthucham:
 	# cuoi thu tuc
 	#restore
 	lw $ra,($sp)
