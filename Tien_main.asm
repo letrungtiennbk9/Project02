@@ -72,6 +72,39 @@ Thong_wed: .asciiz "Wed"
 Thong_thurs: .asciiz "Thurs"
 Thong_fri: .asciiz "Fri"
 Thong_sat: .asciiz "Sat"
+Can_Canh:.asciiz"Canh "
+Can_Tan:.asciiz"Tan "
+Can_Nham:.asciiz"Nham "
+Can_Quy:.asciiz"Quy "
+Can_Giap:.asciiz"Giap "
+Can_At:.asciiz"At "
+Can_Binh:.asciiz"Binh "
+Can_Dinh:.asciiz"Dinh "
+Can_Mau:.asciiz"Mau "
+Can_Ky:.asciiz"Ky "
+
+Chi_Ti:.asciiz"Ti"
+Chi_Suu:.asciiz"Suu"
+Chi_Dan:.asciiz"Dan"
+Chi_Mao:.asciiz"Mao"
+Chi_Thin:.asciiz"Thin"
+Chi_Ty:.asciiz"Ty"
+Chi_Ngo:.asciiz"Ngo"
+Chi_Mui:.asciiz"Mui"
+Chi_Than:.asciiz"Than"
+Chi_Dau:.asciiz"Dau"
+Chi_Tuat:.asciiz"Tuat"
+Chi_Hoi:.asciiz"Hoi"
+
+suu_tb1: .asciiz "Nhap DAY: "
+suu_tb2: .asciiz "Nhap MONTH: "
+suu_tb3: .asciiz "Nhap YEAR: "
+suu_tb4: .asciiz "Du lieu khong hop le !\n"
+xd: .asciiz "\n"
+suu_dd: .space 3
+suu_mm: .space 3
+suu_yyyy: .space 5
+dayArr: .word 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 	.text
 .globl main
 main:
@@ -1453,4 +1486,1071 @@ SSChuoi:
 	lw $t3 24($sp)
 	addi $sp $sp 28
 
+	jr $ra
+
+
+
+
+
+.globl Tai_CanChi
+Tai_CanChi:
+	# Can chi cua nam 
+	# Truyen nam vao $a0
+	# Tra ve: Can -> $v0, Chi -> $v1
+	# 
+	# DAU THU TUC
+	
+	# create stack	
+	addi $sp,$sp,-28 
+
+	# backup
+	sw $ra,($sp)
+	sw $t0,4($sp)
+	sw $t1,8($sp)
+	sw $t2,12($sp)
+	sw $t4,16($sp)
+	sw $t5,20($sp)
+	sw $a0,24($sp)
+	
+	# THAN THU TUC
+	add $t0,$a0,$zero
+	addi $t1,$0,10
+	addi $t2,$0,12
+	
+	div $t0,$t1
+	mfhi $t1
+	
+	div $t0,$t2
+	mfhi $t2
+Can:	
+	beq $t1,0,Canh
+	beq $t1,1,Tan
+	beq $t1,2,Nham
+	beq $t1,3,Quy
+	beq $t1,4,Giap
+	beq $t1,5,At
+	beq $t1,6,Binh
+	beq $t1,7,Dinh
+	beq $t1,8,Mau
+	beq $t1,9,Ky
+	
+Chi:
+	beq $t2,0,Than
+	beq $t2,1,Dau
+	beq $t2,2,Tuat
+	beq $t2,3,Hoi
+	beq $t2,4,Ti
+	beq $t2,5,Suu
+	beq $t2,6,Dan
+	beq $t2,7,Mao
+	beq $t2,8,Thin
+	beq $t2,9,Ty
+	beq $t2,10,Ngo
+	beq $t2,11,Mui
+	
+Tai_Ketthuc:
+	
+	# CUOI THU TUC
+	
+	# return can/chi
+	move $v0,$t4
+	move $v1,$t5
+	
+	# restore
+	lw $ra,($sp)
+	lw $t0,4($sp)
+	lw $t1,8($sp)
+	lw $t2,12($sp)
+	lw $t4,16($sp)
+	lw $t5,20($sp)
+	lw $a0,24($sp)
+	
+	# delete stack
+	addi $sp,$sp,28
+	
+	# 
+	jr $ra
+	
+########################## CAN #########################
+	
+Canh:
+	la $t4,Can_Canh
+	j Chi
+Tan:
+	la $t4,Can_Tan
+	j Chi
+Nham:
+	la $t4,Can_Nham
+	j Chi
+Quy:	
+	la $t4,Can_Quy
+	j Chi
+Giap:
+	la $t4,Can_Giap
+	j Chi
+At:
+	la $t4,Can_At
+	j Chi
+Binh:
+	la $t4,Can_Binh
+	j Chi
+Dinh:
+	la $t4,Can_Dinh
+	j Chi
+Mau:
+	la $t4,Can_Mau
+	j Chi
+Ky:
+	la $t4,Can_Ky	
+	j Chi
+
+############################# CHI #############################	
+			
+Ti:
+	la $t5,Chi_Ti
+	j Tai_Ketthuc
+Suu:
+	la $t5,Chi_Suu
+	j Tai_Ketthuc
+Dan:
+	la $t5,Chi_Dan
+	j Tai_Ketthuc
+Mao:
+	la $t5,Chi_Mao
+	j Tai_Ketthuc
+Thin: 
+	la $t5,Chi_Thin
+	j Tai_Ketthuc
+Ty:
+	la $t5,Chi_Ty
+	j Tai_Ketthuc
+Ngo:
+	la $t5,Chi_Ngo
+	j Tai_Ketthuc
+Mui:
+	la $t5,Chi_Mui
+	j Tai_Ketthuc
+Than:
+	la $t5,Chi_Than
+	j Tai_Ketthuc
+Dau:
+	la $t5,Chi_Dau
+	j Tai_Ketthuc
+Tuat:
+	la $t5,Chi_Tuat
+	j Tai_Ketthuc
+Hoi:
+	la $t5,Chi_Hoi
+	j Tai_Ketthuc
+
+
+
+
+
+	.globl Tai_HaiNamNhuanGanNhat
+
+Tai_HaiNamNhuanGanNhat:
+	# Tim hai nam nhuan gan nhat voi nam truyen vao
+	# Nam truyen vao $a0
+	# Ket qua tra ve: $v0 va $v1
+	
+	# DAU THU TUC
+
+	# create stack
+	addi $sp,$sp,-20
+	
+	# backup
+	sw $ra,0($sp)
+	sw $a0,4($sp)
+	sw $t0,8($sp)
+	sw $t1,12($sp)
+	sw $t2,16($sp)
+	
+	# THAN THU TUC
+	
+	addi $t0,$0,4
+	slt $t2,$a0,$t0
+	beq $t2,1,LessThanFour
+	j NotLessThanFour
+	
+	LessThanFour:
+		addi $t0,$0,4
+		addi $t1,$0,8
+		j TwoLeap_return
+	
+	NotLessThanFour:
+		beq $a0,4,isFour
+		j BiggerThanFour
+	
+		isFour:
+			addi $t0,$0,8
+			addi $t1,$0,12
+			j TwoLeap_return
+
+		BiggerThanFour:	
+			# Kiem tra $a0 co phai nam nhuan
+			jal LaNamNhuan
+			beq $v0,1,pre_Leap
+			j pre_notLeap
+
+			# is Leap
+			pre_Leap:
+				subi $t0,$a0,4
+				addi $t1,$a0,4
+				j Leap_Smaller
+
+				Leap_Smaller:
+					move $a0,$t0
+					jal LaNamNhuan
+					beq $v0,$0,re_Leap_Smaller
+					j Leap_Bigger
+
+				re_Leap_Smaller:
+					subi $t0,$t0,4
+					j Leap_Smaller
+
+				Leap_Bigger:
+					move $a0,$t1
+					jal LaNamNhuan
+					beq $v0,$0,re_Leap_Bigger
+					j TwoLeap_return
+
+				re_Leap_Bigger:
+					addi $t1,$t1,4
+					j Leap_Bigger
+
+			# is not Leap
+			pre_notLeap:
+				subi $t0,$a0,1
+				j NotLeap_Smaller
+
+				NotLeap_Smaller:	
+					move $a0,$t0
+					jal LaNamNhuan
+					beq $v0,$0,re_NotLeap_Smaller
+
+					addi $t1,$t0,4
+					j NotLeap_Bigger
+
+				re_NotLeap_Smaller:
+					subi $t0,$t0,1
+					j NotLeap_Smaller
+
+				NotLeap_Bigger:	
+					move $a0,$t1
+					jal LaNamNhuan
+					beq $v0,$0,re_NotLeap_Bigger
+
+					j TwoLeap_return
+
+				re_NotLeap_Bigger:
+					addi $t1,$t1,4
+					j NotLeap_Bigger
+	
+TwoLeap_return:
+	
+	# CUOI THU TUC
+	# return
+	move $v0,$t0
+	move $v1,$t1
+	
+	# backup
+	lw $ra,0($sp)
+	lw $a0,4($sp)
+	lw $t0,8($sp)
+	lw $t1,12($sp)
+	lw $t2,16($sp)
+
+	# create stack
+	addi $sp,$sp,20
+
+	jr $ra
+
+
+
+
+
+.globl Thong_Weekday
+
+# tham so truyen vao: thanh ghi $a0 la mang ngay
+# ham tra ve chuoi ket qua la ngay thu may trong tuan cua ngay duoc truyen vao
+# ket qua tra ve luu trong thanh ghi $v0
+
+Thong_Weekday:
+	#Dau thu tuc
+	addi $sp, $sp, -40
+	#backup
+	sw $ra,	($sp)
+	sw $t0, 4($sp)
+	sw $t1, 8($sp)
+	sw $s1, 12($sp)
+	sw $s2, 16($sp)
+	sw $s3, 20($sp)
+	sw $s4, 24($sp)
+	sw $a0, 28($sp)
+	sw $a1, 32($sp)
+	sw $a2, 36($sp)
+	
+	#Than thu tuc
+	# Lay tham so truyen vao
+	lw $s1, ($a0)
+	lw $s2, 4($a0)
+	lw $s3, 8($a0)
+	
+	#Truyen tham so de goi ham SoNgayTu111
+	sw $s1, ($a0)
+	sw $s2, 4($a0)
+	sw $s3, 8($a0)
+	
+	jal Thong_SoNgayTu111
+	move $t0, $v0
+	
+	#Cong them 1 de dung voi cong thuc
+	addi $t0, $t0, 1
+	
+	li $t1, 7
+	div $t0, $t1
+	mfhi $t0
+
+	
+	#xuat ket qua
+	beq $t0,0,Thong_ChuNhat
+	beq $t0,1,Thong_ThuHai
+	beq $t0,2,Thong_ThuBa
+	beq $t0,3,Thong_ThuTu
+	beq $t0,4,Thong_ThuNam
+	beq $t0,5,Thong_ThuSau
+	beq $t0,6,Thong_ThuBay
+	
+Thong_ChuNhat:
+	la $a0, Thong_sun
+	move $v0, $a0
+	j Thong_KetThucHam
+
+Thong_ThuHai:
+	la $a0,Thong_mon
+	move $v0, $a0
+	j Thong_KetThucHam
+	
+Thong_ThuBa:	
+	la $a0,Thong_tues
+	move $v0, $a0
+	j Thong_KetThucHam
+
+Thong_ThuTu:	
+	la $a0,Thong_wed
+	move $v0, $a0
+	j Thong_KetThucHam
+
+Thong_ThuNam:
+	la $a0,Thong_thurs
+	move $v0, $a0
+	j Thong_KetThucHam
+	
+Thong_ThuSau:
+	la $a0,Thong_fri
+	move $v0, $a0
+	j Thong_KetThucHam
+
+Thong_ThuBay:
+	la $a0,Thong_sat
+	move $v0, $a0
+	j Thong_KetThucHam
+
+Thong_KetThucHam:	
+	#Cuoi thu tuc
+	#restore thanh ghi
+	lw $ra,($sp)
+	lw $t0,4($sp)
+	lw $t1, 8($sp)
+	lw $s1, 12($sp)
+	lw $s2, 16($sp)
+	lw $s3, 20($sp)
+	lw $s4, 24($sp)
+	lw $a0, 28($sp)
+	lw $a1, 32($sp)
+	lw $a2, 36($sp)
+	#Xoa stack
+	addi $sp,$sp,40
+	#tra ve
+	jr $ra
+
+
+
+
+
+.globl Thong_GetTime
+
+# tham so truyen vao: thanh ghi $a0, $a1 la 2 mang ngay
+# ham tra ve ket qua la khoang cach giua 2 chuoi ngay truyen vao
+# ket qua tra ve luu trong thanh ghi $v0
+
+Thong_GetTime:
+
+	#Dau thu tuc
+	addi $sp, $sp, -48
+	#backup
+	sw $ra,($sp)
+	sw $t0, 4($sp)
+	sw $t1, 8($sp)
+	sw $t2, 12($sp)
+	sw $t3, 16($sp)
+	sw $s0, 20($sp)
+	sw $s1, 24($sp)
+	sw $s2, 28($sp)
+	sw $s3, 32($sp)
+	sw $a0, 36($sp)
+	sw $a1, 40($sp)
+	sw $a2, 44($sp)
+	
+	#Than thu tuc
+	#luu lai gia tri ngay thu nhat
+	lw $t2, ($a0)
+	lw $t3, 4($a0)
+	lw $s0, 8($a0)
+	
+	#lay du lieu cho viec tinh toan ngay thu nhat
+	lw $s1, ($a0)
+	lw $s2, 4($a0)
+	lw $s3, 8($a0)
+	
+	sw $s1, ($a0)
+	sw $s2, 4($a0)
+	sw $s3, 8($a0)
+	
+	jal Thong_SoNgayTu111
+	
+	#t0 luu khoang cach tu ngay 1/1/1 cua thu nhat
+	move $t0, $v0
+	
+	#lay ngay thu 2 de tinh toan
+	lw $s1, ($a1)
+	lw $s2, 4($a1)
+	lw $s3, 8($a1)
+	
+	sw $s1, ($a0)
+	sw $s2, 4($a0)
+	sw $s3, 8($a0)
+	
+	jal Thong_SoNgayTu111
+	
+	#Lay lai gia tri cho $a0: ngay thu nhat
+	sw $t2, ($a0)
+	sw $t3, 4($a0)
+	sw $s0, 8($a0)
+	
+	#t1 luu khoang cach tu ngay 1/1/1 cua thu hai
+	move $t1, $v0
+	
+	#tru 2 ket qua thu duoc va so sanh de tra ve
+	sub $t2, $t0, $t1
+	bltz $t2, Thong_NhoHon_0
+	j Thong_TraVeKetQuaKhoangCach2Ngay
+	
+Thong_NhoHon_0:
+	li $t0, -1
+	mult $t2, $t0
+	mflo $t2
+	
+Thong_TraVeKetQuaKhoangCach2Ngay:
+	move $v0, $t2
+	
+	#Cuoi thu tuc
+	#restore thanh ghi
+	lw $ra,($sp)
+	lw $t0, 4($sp)
+	lw $t1, 8($sp)
+	lw $t2, 12($sp)
+	lw $t3, 16($sp)
+	lw $s0, 20($sp)
+	lw $s1, 24($sp)
+	lw $s2, 28($sp)
+	lw $s3, 32($sp)
+	lw $a0, 36($sp)
+	lw $a1, 40($sp)
+	lw $a2, 44($sp)
+	#Xoa stack
+	addi $sp,$sp, 48
+	#tra ve
+	jr $ra
+
+
+
+
+
+.globl Thong_SoNgayTu111
+# tham so truyen vao: thanh ghi $a0 la mang ngay
+# ham tra ve gia tri ngay thu n tu ngay 1/1/1 vao thanh ghi $v0
+# chuc nang: cho biet ngay vua nhap (tham so truyen vao) la ngay thu may ke tu ngay 1/1/1
+
+Thong_SoNgayTu111:
+    	#Dau thu tuc
+	addi $sp, $sp, -44
+	#backup
+	sw $ra,($sp)
+	sw $t0,4($sp)
+	sw $t1, 8($sp)
+	sw $t2, 12($sp)
+	sw $s1, 16($sp)
+	sw $s2, 20($sp)
+	sw $s3, 24($sp)
+	sw $s4, 28($sp)
+	sw $a0, 32($sp)
+	sw $a1, 36($sp)
+	sw $a2, 40($sp)
+	
+	#Than thu tuc
+	
+	lw $s1, ($a0)
+	lw $s2, 4($a0)
+	lw $s3, 8($a0)
+	#kiem tra thang < 3
+	li $t1, 3
+	slt $t2,$s2,$t1
+	bne $t2,$0,Thong_TangThang_GiamNam
+	j Thong_TiepTucNeuKhongTang
+	#Truong hop thang < 3
+Thong_TangThang_GiamNam:
+	li $t1, 1
+	sub $s3, $s3, $t1
+	
+	li $t1, 12
+	add $s2, $s2, $t1
+
+	
+	#tinh so ngay tu 1/1/1
+	# khoi tao so ngay (s) = 0
+	
+Thong_TiepTucNeuKhongTang:
+	li $t0, 0
+	
+	li $t1, 365
+	mult $t1, $s3
+	mflo $s4
+	
+	# s = s + kq1
+	add $t0, $t0, $s4
+	
+	#year /4
+	li $t1, 4
+	div $s3, $t1
+	mflo $s4
+	
+	# s = s + kq2
+	add $t0, $t0, $s4
+	
+	#year / 100
+	li $t1, 100
+	div $s3, $t1
+	mflo $s4
+	
+	# s = s + kq3
+	sub $t0, $t0, $s4
+	
+	#year / 400
+	li $t1, 400
+	div $s3, $t1
+	mflo $s4
+	
+	# s = s + kq3
+	add $t0, $t0, $s4
+	
+	
+	# s = s + (153 * month - 457) / 5
+	li $t1, 153
+	mult $t1, $s2
+	mflo $s4
+	
+	li $t1, 457
+	sub $s4, $s4, $t1
+	
+	li $t1, 5
+	div $s4, $t1
+	mflo $s4
+	
+	# s = s + kq4
+	add $t0, $t0, $s4
+	
+	# s = s + day
+	add $t0, $t0, $s1
+	
+	li $t1, 306
+	#s = s - 306
+	sub $t0, $t0, $t1
+	
+	# s = s - 1 de tinh la ngay thu may tu ngay 1/1/1 
+	subi $t0, $t0, 1
+	
+	# chuyen kq ve $v0
+	move $v0, $t0
+	
+	#Cuoi thu tuc
+	#restore thanh ghi
+	lw $ra,($sp)
+	lw $t0,4($sp)
+	lw $t1, 8($sp)
+	lw $t2, 12($sp)
+	lw $s1, 16($sp)
+	lw $s2, 20($sp)
+	lw $s3, 24($sp)
+	lw $s4, 28($sp)
+	lw $a0, 32($sp)
+	lw $a1, 36($sp)
+	lw $a2, 40($sp)
+	#Xoa stack
+	addi $sp,$sp, 44
+	#tra ve
+	jr $ra
+
+
+
+
+
+# - Chuc nang: Cho phep nguoi dung nhap DAY, MONTH, YEAR tu ban phim
+	# - Tra ve thanh ghi v0 chua dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0)
+.globl suu_nhap
+suu_nhap: 
+	# Dau thu tuc
+	addi $sp, $sp, -44
+	# backup
+	sw $ra,($sp)
+	sw $t0, 4($sp)
+	sw $t1, 8($sp)
+	sw $t2, 12($sp)
+	sw $t3, 16($sp)
+	sw $t4, 20($sp)
+	sw $a0, 24($sp)
+	sw $a1, 28($sp)
+	sw $a2, 32($sp)
+	sw $s0, 36($sp)
+	sw $v1, 40($sp)
+	# nhap DAY
+	li $v0, 4
+	la $a0, suu_tb1
+	syscall
+	la $v0, 8
+	la $a0, suu_dd
+	li $a1, 3
+	syscall
+	jal nhap_suu_atoi
+	move $t0, $v0
+	li $v0, 4
+	la $a0, xd
+	syscall
+	#nhap MONTH
+	li $v0, 4
+	la $a0, suu_tb2
+	syscall
+	la $v0, 8
+	la $a0, suu_mm
+	li $a1, 3
+	syscall
+	jal nhap_suu_atoi
+	move $t1 $v0
+	li $v0, 4
+	la $a0, xd
+	syscall
+	# nhap YEAR
+	li $v0, 4
+	la $a0, suu_tb3
+	syscall
+	la $v0, 8
+	la $a0, suu_yyyy
+	li $a1, 5
+	syscall
+	jal nhap_suu_atoi
+	move $t2, $v0
+	li $v0, 4
+	la $a0, xd
+	syscall
+	# Than thu tuc
+	move	$a0, $t0 
+	move	$a1, $t1 
+	move	$a2, $t2 
+	# Kiem tra tinh hop le
+	jal nhap_suu_kiemtrahople
+	bne $v0,0,nhap_suu_accept
+	bne $v0, 1, nhap_suu_unaccept
+.globl nhap_suu_atoi
+nhap_suu_atoi:
+	#Backup...
+	subi $sp $sp 36
+	sw $ra ($sp)
+	sw $a0 4($sp)
+	sw $t0 8($sp)
+	sw $s0 12($sp)
+	sw $s1 16($sp)
+	sw $t1 20($sp)
+	sw $t2 24($sp)
+	sw $v1 28($sp)
+	sw $t3, 32($sp) 
+	#Tim so chu so
+	jal ChieuDaiChuoi
+	move $s0 $v0
+	#t0 = 10^(soCS - 1)
+	li $t0 1
+	li $t2 10
+	subi $t1 $s0 1	#t1 = s0 - 1 = soCS - 1
+	nhap_suu_atoi_Cond1:
+	bne $t1 $0 nhap_suu_atoi_Loop1
+	beq $t1 $0 nhap_suu_atoi_ExitLoop1
+	nhap_suu_atoi_Loop1:
+		mult $t0 $t2
+		mflo $t0
+		subi $t1 $t1 1
+		j nhap_suu_atoi_Cond1
+	nhap_suu_atoi_ExitLoop1:
+	#Bat dau tinh toan
+	li $t1 0	#Index
+	li $v1 0	#ret
+	nhap_suu_atoi_Cond:
+	bne $t1 $s0 nhap_suu_atoi_Loop
+	beq $t1 $s0 nhap_suu_atoi_ExitLoop
+	nhap_suu_atoi_Loop:
+		lb $s1 ($a0)	#Chu so dau tien duoc tach dang ascii
+		beq $s1 ' ' nhap_suu_atoi_ExitLoop
+		beq $s1 '\n' nhap_suu_atoi_ExitXd # Xuly ky tu \n
+		subi $s1 $s1 48	#Chuyen thanh int
+
+		#s1 = s1 * t0
+		mult $s1 $t0
+		mflo $s1
+
+		add $v1 $v1 $s1	#Cong don ket qua
+
+		addi $a0 $a0 1	#a0 tang len 1 dia chi
+
+		#t0 = t0 / 10 cho vong lap tiep theo
+		li $t2 10
+		div $t0 $t2
+		mflo $t0
+		addi $t1 $t1 1	#i++
+		
+		j nhap_suu_atoi_Cond
+	nhap_suu_atoi_ExitXd:
+		li $t3 10
+		div $v1 $t3
+		mflo $v1 
+		j nhap_suu_atoi_ExitLoop
+	nhap_suu_atoi_ExitLoop:
+	move $v0, $v1
+	#Restore...
+	lw $ra ($sp)
+	lw $a0 4($sp)
+	lw $t0 8($sp)
+	lw $s0 12($sp)
+	lw $s1 16($sp)
+	lw $t1 20($sp)
+	lw $t2 24($sp)
+	lw $v1 28($sp)
+	lw $t3, 32($sp) 
+	addi $sp $sp 36
+	jr $ra
+#----------------------------------------------------------------------------------------------------------------
+.globl nhap_suu_unaccept
+nhap_suu_unaccept:
+	li $v0, 4
+	la $a0, suu_tb4
+	syscall
+	j suu_nhap
+.globl nhap_suu_accept
+nhap_suu_accept:
+	# tra ve v0
+	move $t3, $a0
+	la $a0, 12
+	li $v0, 9
+	syscall
+	add $v1, $t3, $zero
+	sw $v1, 0($v0)
+	add $v1, $a1, $zero
+	sw $v1, 4($v0)
+	add $v1, $a2, $zero
+	sw $v1, 8($v0)
+	j nhap_suu_ketthucham
+.globl nhap_suu_kiemtrahople
+nhap_suu_kiemtrahople:
+	addi	$sp, $sp, -40
+	# backup
+	sw 	$t6, 36($sp)
+	sw	$a0, 32($sp)
+	sw	$ra, 28($sp)
+	sw	$t0, 24($sp)
+	sw	$t1, 20($sp)
+	sw	$t2, 16($sp)
+	sw	$t3, 12($sp)
+	sw	$t4, 8($sp)
+	sw 	$t5, 4($sp)
+	sw	$s0, 0($sp)
+	move	$t0, $a0 # dd
+	move 	$t1, $a1 # mm
+	move 	$t2, $a2 # yyyy
+	li $t6, 1
+	slt $t5,$t0,$t6 # kiem tra dd < 1
+	bne $t5,$0,nhap_suu_khonghople
+	li $t3, 13
+	slt $t3, $t1, $t3 # kiem tra xem mm < 13?
+	beq $t3,$0,nhap_suu_khonghople # mm > 13
+
+	# Kiem tra DAY
+	la	$s0, dayArr
+	addi	$t4, $t1, -1
+	sll	$t4, $t4, 2
+	add	$s0, $s0, $t4
+	lw	$s0, ($s0) # so ngay cua THANG da nhap
+
+	li  $t4, 2
+	bne $t1, $t4, nhap_suu_kiemtradate
+	lw  $a0, 28($sp)
+	jal nhap_suu_ktnamnhuan
+	beq	$v0, $0, nhap_suu_kiemtradate 
+	addi	$s0, $s0, 1 
+	j 	nhap_suu_kiemtradate
+.globl nhap_suu_kiemtradate
+nhap_suu_kiemtradate: # Kiem tra xem so ngay cua Thang da nhap co phu hop voi Ngay da nhap hay khong
+	slt	$t4, $s0, $t0
+	bne	$t4, $0, nhap_suu_khonghople
+	j	nhap_suu_hople
+.globl nhap_suu_hople
+nhap_suu_hople:
+	li $v0, 1
+	j nhap_suu_kt
+.globl nhap_suu_khonghople
+nhap_suu_khonghople:
+	li $v0,0
+	j nhap_suu_kt
+.globl nhap_suu_kt
+nhap_suu_kt:
+	lw	$a0, 32($sp)
+	lw	$ra, 28($sp)
+	lw	$t0, 24($sp)
+	lw	$t1, 20($sp)
+	lw	$t2, 16($sp)
+	lw	$t3, 12($sp)
+	lw	$t4, 8($sp)
+	lw 	$t5, 4($sp)
+	lw	$s0, 0($sp)
+	lw 	$t6, 36($sp)
+	addi	$sp, $sp, 40
+	jr 	$ra
+.globl nhap_suu_ktnamnhuan
+nhap_suu_ktnamnhuan:
+	addi	$sp, $sp, -12
+	sw	$ra, 8($sp)
+	sw	$t0, 4($sp)
+	sw	$t1, 0($sp)
+	move	$t1, $a2 #yyyy
+	li	$t0, 400
+	div	$t1, $t0
+	mfhi	$t0
+	beq 	$t0, $0, nhap_suu_true
+
+	li	$t0, 4
+	div	$t1, $t0
+	mfhi	$t0
+	bne 	$t0, $0, nhap_suu_false
+
+	li	$t0, 100
+	div	$t1, $t0
+	mfhi	$t0
+	beq	$t0, $0, nhap_suu_false
+.globl nhap_suu_true
+nhap_suu_true:
+	li	$v0, 1
+	j	nhap_suu_break
+.globl nhap_suu_false
+nhap_suu_false:
+	li	$v0, 0
+	j	nhap_suu_break
+.globl nhap_suu_break
+nhap_suu_break:
+	lw	$ra, 8($sp)
+	lw	$t0, 4($sp)
+	lw	$t1, 0($sp)
+	addi	$sp, $sp, 12
+	jr	$ra
+.globl nhap_suu_ketthucham
+nhap_suu_ketthucham:
+	# cuoi thu tuc
+	#restore
+	lw $ra,($sp)
+	lw $t0, 4($sp)
+	lw $t1, 8($sp)
+	lw $t2, 12($sp)
+	lw $t3, 16($sp)
+	lw $t4, 20($sp)
+	lw $a0, 24($sp)
+	lw $a1, 28($sp)
+	lw $a2, 32($sp)
+	lw $s0, 36($sp)
+	lw $v1, 40($sp)
+	# xoa stack
+	addi $sp, $sp, 44
+	# tra ve
+	jr $ra
+
+
+
+
+
+# - Truyen dd,mm,yyyy vao cac thanh ghi tuong ung a0, a1, a2
+	# - Tra ve thanh ghi v0 chua dd, mm,yyyy (dd: 0($v0), mm: 4($v0), yyyy: 8($v0))
+.globl suu_Nhap_ThamSo
+suu_Nhap_ThamSo: 
+	# Dau thu tuc
+	addi $sp, $sp, -44
+	# backup
+	sw $ra,($sp)
+	sw $t0, 4($sp)
+	sw $t1, 8($sp)
+	sw $t2, 12($sp)
+	sw $t3, 16($sp)
+	sw $t4, 20($sp)
+	sw $a0, 24($sp)
+	sw $a1, 28($sp)
+	sw $a2, 32($sp)
+	sw $s0, 36($sp)
+	sw $v1, 40($sp)
+	# Than thu tuc
+	# Kiem tra tinh hop le
+	jal suu_kiemtrahople
+	bne $v0,0,suu_accept
+	bne $v0, 1, suu_unaccept
+.globl suu_unaccept
+suu_unaccept:
+	li $v0, 4
+	la $a0, suu_tb4
+	syscall
+.globl suu_accept
+suu_accept:
+	# tra ve v0
+	move $t3, $a0
+	la $a0, 12
+	li $v0, 9
+	syscall
+	add $v1, $t3, $zero
+	sw $v1, 0($v0)
+	add $v1, $a1, $zero
+	sw $v1, 4($v0)
+	add $v1, $a2, $zero
+	sw $v1, 8($v0)
+	j suu_ketthucham
+.globl suu_kiemtrahople
+suu_kiemtrahople:
+	addi	$sp, $sp, -40
+	# backup
+	sw 	$t6, 36($sp)
+	sw	$a0, 32($sp)
+	sw	$ra, 28($sp)
+	sw	$t0, 24($sp)
+	sw	$t1, 20($sp)
+	sw	$t2, 16($sp)
+	sw	$t3, 12($sp)
+	sw	$t4, 8($sp)
+	sw 	$t5, 4($sp)
+	sw	$s0, 0($sp)
+	move	$t0, $a0 # dd
+	move 	$t1, $a1 # mm
+	move 	$t2, $a2 # yyyy
+	li $t6, 1
+	slt $t5,$t0,$t6 # kiem tra dd < 1
+	bne $t5,$0,suu_khonghople
+	li $t3, 13
+	slt $t3, $t1, $t3 # kiem tra xem mm < 13?
+	beq $t3,$0,suu_khonghople # mm > 13
+
+	# Kiem tra DAY
+	la	$s0, dayArr
+	addi	$t4, $t1, -1
+	sll	$t4, $t4, 2
+	add	$s0, $s0, $t4
+	lw	$s0, ($s0) # so ngay cua THANG da nhap
+
+	li  $t4, 2
+	bne $t1, $t4, suu_kiemtradate
+	lw  $a0, 28($sp)
+	jal suu_ktnamnhuan
+	beq	$v0, $0, suu_kiemtradate 
+	addi	$s0, $s0, 1 
+	j 	suu_kiemtradate
+.globl suu_kiemtradate
+suu_kiemtradate: # Kiem tra xem so ngay cua Thang da nhap co phu hop voi Ngay da nhap hay khong
+	slt	$t4, $s0, $t0
+	bne	$t4, $0, suu_khonghople
+	j	suu_hople
+.globl suu_hople
+suu_hople:
+	li $v0, 1
+	j suu_kt
+.globl suu_khonghople
+suu_khonghople:
+	li $v0,0
+	j suu_kt
+.globl suu_kt
+suu_kt:
+	lw	$a0, 32($sp)
+	lw	$ra, 28($sp)
+	lw	$t0, 24($sp)
+	lw	$t1, 20($sp)
+	lw	$t2, 16($sp)
+	lw	$t3, 12($sp)
+	lw	$t4, 8($sp)
+	lw 	$t5, 4($sp)
+	lw	$s0, 0($sp)
+	lw 	$t6, 36($sp)
+	addi	$sp, $sp, 40
+	jr 	$ra
+.globl suu_ktnamnhuan
+suu_ktnamnhuan:
+	addi	$sp, $sp, -12
+	sw	$ra, 8($sp)
+	sw	$t0, 4($sp)
+	sw	$t1, 0($sp)
+	move	$t1, $a2 #yyyy
+	li	$t0, 400
+	div	$t1, $t0
+	mfhi	$t0
+	beq 	$t0, $0, suu_true
+
+	li	$t0, 4
+	div	$t1, $t0
+	mfhi	$t0
+	bne 	$t0, $0, suu_false
+
+	li	$t0, 100
+	div	$t1, $t0
+	mfhi	$t0
+	beq	$t0, $0, suu_false
+.globl suu_true
+suu_true:
+	li	$v0, 1
+	j	suu_break
+.globl suu_false
+suu_false:
+	li	$v0, 0
+	j	suu_break	
+.globl suu_break
+suu_break:
+	lw	$ra, 8($sp)
+	lw	$t0, 4($sp)
+	lw	$t1, 0($sp)
+	addi	$sp, $sp, 12
+	jr	$ra
+.globl suu_ketthucham
+suu_ketthucham:
+	# cuoi thu tuc
+	#restore
+	lw $ra,($sp)
+	lw $t0, 4($sp)
+	lw $t1, 8($sp)
+	lw $t2, 12($sp)
+	lw $t3, 16($sp)
+	lw $t4, 20($sp)
+	lw $a0, 24($sp)
+	lw $a1, 28($sp)
+	lw $a2, 32($sp)
+	lw $s0, 36($sp)
+	lw $v1, 40($sp)
+	# xoa stack
+	addi $sp, $sp, 44
+	# tra ve
 	jr $ra
