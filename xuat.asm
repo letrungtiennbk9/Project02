@@ -1,6 +1,6 @@
 .data
 	hqthinh_kq: 		.asciiz "\nKet qua: "
-	hqthinh_menu: 		.asciiz "A. MM/DD/YYYY\nB. DD Month, YYYY.\nC. Month DD, YYYY\nChon: "
+	hqthinh_menu: 		.asciiz "\n=======Menu======\nA. MM/DD/YYYY\nB. DD Month, YYYY.\nC. Month DD, YYYY\nD. Ket Thuc\n==============\nChon:"
 	hqthinh_gach_cheo: 	.asciiz "/"
 	hqthinh_phay: 		.asciiz ", "
 	hqthinh_space: 		.asciiz " "
@@ -320,8 +320,9 @@ in_0_day3:
 
 #######
 thang_1:
-	addi $sp,$sp,-4
+	addi $sp,$sp,-8
 	sw $a0,($sp)
+	sw $ra,4($sp)
 	
 	bgt,$s2,1,thang_2
 	#xuat thang 1
@@ -330,13 +331,12 @@ thang_1:
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra
 
 #######
 thang_2:
-	addi $sp,$sp,-4
-	sw $a0,($sp)
 
 	bgt,$s2,2,thang_3
 	#xuat thang 2
@@ -345,13 +345,12 @@ thang_2:
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra
 	
 #######
 thang_3:
-	addi $sp,$sp,-4
-	sw $a0,($sp)
 	
 	bgt,$s2,3,thang_4
 	#xuat thang 3
@@ -360,13 +359,12 @@ thang_3:
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra
 		
 #######
 thang_4:
-	addi $sp,$sp,-4
-	sw $a0,($sp)
 	
 	bgt,$s2,4,thang_5
 	#xuat thang 4
@@ -375,13 +373,12 @@ thang_4:
 	syscall		
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra
 	
 #######
 thang_5:
-	addi $sp,$sp,-4
-	sw $a0,($sp)
 	
 	bgt,$s2,5,thang_6
 	#xuat thang 5
@@ -390,13 +387,12 @@ thang_5:
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra
 	
 #######
 thang_6:
-	addi $sp,$sp,-4
-	sw $a0,($sp)
 	
 	bgt,$s2,6,thang_7
 	#xuat thang 6
@@ -405,13 +401,12 @@ thang_6:
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra
 	
 #######
 thang_7:
-	addi $sp,$sp,-4
-	sw $a0,($sp)
 	
 	bgt,$s2,7,thang_8
 	#xuat thang 7
@@ -420,13 +415,12 @@ thang_7:
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra
 	
 #######
 thang_8:
-	addi $sp,$sp,-4
-	sw $a0,($sp)
 	
 	bgt,$s2,8,thang_9
 	#xuat thang 8
@@ -435,13 +429,12 @@ thang_8:
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra
 	
 #######
 thang_9:
-	addi $sp,$sp,-4
-	sw $a0,($sp)
 	
 	bgt,$s2,9,thang_10
 	#xuat thang 9
@@ -450,13 +443,12 @@ thang_9:
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
-	jr $ra																																																								
+	lw $ra,4($sp)
+	addi $sp,$sp,8
+	jr $ra																																																							
 
 #######
 thang_10:
-	addi $sp,$sp,-4
-	sw $a0,($sp)
 	
 	bgt,$s2,10,thang_11
 	#xuat thang 10
@@ -465,13 +457,11 @@ thang_10:
 	syscall
 
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra
-
 #######
 thang_11:
-	addi $sp,$sp,-4
-	sw $a0,($sp)
 	
 	bgt,$s2,11,thang_12
 	#xuat thang 11
@@ -479,12 +469,13 @@ thang_11:
 	la $a0,hqthinh_nov
 	syscall
 	
+	lw $a0,($sp)
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra
 	
 #######
 thang_12:
-	addi $sp,$sp,-4
-	sw $a0,($sp)
 	
 	#xuat thang 12
 	li $v0,4
@@ -492,105 +483,126 @@ thang_12:
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra
 	
 #######
 ThongBaoKQ:
-	addi $sp,$sp,-4
+	addi $sp,$sp,-8
 	sw $a0,($sp)
+	sw $ra,4($sp)
+	
 	#xuat tb_kq
 	li $v0,4
 	la $a0,hqthinh_kq
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
-	jr $ra	
+	lw $ra,4($sp)
+	addi $sp,$sp,8
+	jr $ra
 	
 #######
 XuatNgay:
-	addi $sp,$sp,-4
+	addi $sp,$sp,-8
 	sw $a0,($sp)
+	sw $ra,4($sp)
+	
 	#xuat nam
 	li $v0,1
 	move $a0,$s3
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra		
 	
 #######
 XuatThang:
-	addi $sp,$sp,-4
+	addi $sp,$sp,-8
 	sw $a0,($sp)
+	sw $ra,4($sp)
+	
 	#xuat nam
 	li $v0,1
 	move $a0,$s2
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
-	jr $ra	
+	lw $ra,4($sp)
+	addi $sp,$sp,8
+	jr $ra
 	
 #######
 XuatNam:
-	addi $sp,$sp,-4
+	addi $sp,$sp,-8
 	sw $a0,($sp)
+	sw $ra,4($sp)
+	
 	#xuat nam
 	li $v0,1
 	move $a0,$s1
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra	
 
 #######
 XuatDauCach:
-	addi $sp,$sp,-4
+	addi $sp,$sp,-8
 	sw $a0,($sp)
+	sw $ra,4($sp)
+	
 	#xuat nam
 	li $v0,4
 	la $a0,hqthinh_space
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4	
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra	
 	
 #######
 XuatGachCheo:
-	addi $sp,$sp,-4
+	addi $sp,$sp,-8
 	sw $a0,($sp)
+	sw $ra,4($sp)
 	
 	li $v0,4
 	la $a0,hqthinh_gach_cheo
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra	
 	
 #######
 XuatDauPhay:
-	addi $sp,$sp,-4
+	addi $sp,$sp,-8
 	sw $a0,($sp)
+	sw $ra,4($sp)
 	
 	li $v0,4
 	la $a0,hqthinh_phay
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	jr $ra
 	
 #######
 #xuat thong bao nhap sai
 hqthinh_NhapSai:
-	addi $sp,$sp,-4
+	addi $sp,$sp,-8
 	sw $a0,($sp)
+	sw $ra,4($sp)
 	
 	#xuat tb_sai
 	li $v0,4
@@ -598,7 +610,8 @@ hqthinh_NhapSai:
 	syscall
 	
 	lw $a0,($sp)
-	addi $sp,$sp,4
+	lw $ra,4($sp)
+	addi $sp,$sp,8
 	j hqthinh_XuatMenu
 		
 #######

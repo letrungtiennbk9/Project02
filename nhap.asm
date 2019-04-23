@@ -74,31 +74,6 @@ suu_nhap:
 	jal nhap_suu_kiemtrahople
 	bne $v0,0,nhap_suu_accept
 	bne $v0, 1, nhap_suu_unaccept
-ChieuDaiChuoi:
-	#Backup...
-	subi $sp $sp 12
-	sw $ra ($sp)
-	sw $s1 4($sp)
-	sw $a0 8($sp)
-	li $v0 0
-	lb $s1 ($a0)
-	ChieuDaiChuoi_Cond:
-	#beq $s1 ' ' ChieuDaiChuoi_Exit
-	bne $s1 $0 ChieuDaiChuoi_Loop
-	beq $s1 $0 ChieuDaiChuoi_Exit
-	ChieuDaiChuoi_Loop:
-		addi $v0 $v0 1
-		addi $a0 $a0 1
-		lb $s1 ($a0)
-		j ChieuDaiChuoi_Cond
-	ChieuDaiChuoi_Exit:
-	#Restore...
-	lw $ra ($sp)
-	lw $s1 4($sp)
-	lw $a0 8($sp)
-	addi $sp $sp 12
-
-	jr $ra
 .globl nhap_suu_atoi
 nhap_suu_atoi:
 	#Backup...
@@ -119,25 +94,25 @@ nhap_suu_atoi:
 	li $t0 1
 	li $t2 10
 	subi $t1 $s0 1	#t1 = s0 - 1 = soCS - 1
-	atoi_Cond1:
-	bne $t1 $0 atoi_Loop1
-	beq $t1 $0 atoi_ExitLoop1
-	atoi_Loop1:
+	nhap_suu_atoi_Cond1:
+	bne $t1 $0 nhap_suu_atoi_Loop1
+	beq $t1 $0 nhap_suu_atoi_ExitLoop1
+	nhap_suu_atoi_Loop1:
 		mult $t0 $t2
 		mflo $t0
 		subi $t1 $t1 1
-		j atoi_Cond1
-	atoi_ExitLoop1:
+		j nhap_suu_atoi_Cond1
+	nhap_suu_atoi_ExitLoop1:
 	#Bat dau tinh toan
 	li $t1 0	#Index
 	li $v1 0	#ret
-	atoi_Cond:
-	bne $t1 $s0 atoi_Loop
-	beq $t1 $s0 atoi_ExitLoop
-	atoi_Loop:
+	nhap_suu_atoi_Cond:
+	bne $t1 $s0 nhap_suu_atoi_Loop
+	beq $t1 $s0 nhap_suu_atoi_ExitLoop
+	nhap_suu_atoi_Loop:
 		lb $s1 ($a0)	#Chu so dau tien duoc tach dang ascii
-		beq $s1 ' ' atoi_ExitLoop
-		beq $s1 '\n' atoi_ExitXd # Xuly ky tu \n
+		beq $s1 ' ' nhap_suu_atoi_ExitLoop
+		beq $s1 '\n' nhap_suu_atoi_ExitXd # Xuly ky tu \n
 		subi $s1 $s1 48	#Chuyen thanh int
 
 		#s1 = s1 * t0
@@ -154,13 +129,13 @@ nhap_suu_atoi:
 		mflo $t0
 		addi $t1 $t1 1	#i++
 		
-		j atoi_Cond
-	atoi_ExitXd:
+		j nhap_suu_atoi_Cond
+	nhap_suu_atoi_ExitXd:
 		li $t3 10
 		div $v1 $t3
 		mflo $v1 
-		j atoi_ExitLoop
-	atoi_ExitLoop:
+		j nhap_suu_atoi_ExitLoop
+	nhap_suu_atoi_ExitLoop:
 	move $v0, $v1
 	#Restore...
 	lw $ra ($sp)
