@@ -687,7 +687,7 @@ day0_cau1:
 	#xuat dau gach cheo
 	jal GCheo_fout
 	
-	blt,$s3,10,fout_0_m1 #kiem tra neu thang < 10
+	blt,$s3,10,month0_cau1 #kiem tra neu thang < 10
 	#xuat thang
 	jal Thang_fout
 	
