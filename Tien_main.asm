@@ -12,6 +12,7 @@ tien_tb9: 	.asciiz "\t9.Nhap input tu file input.txt va xuat toan bo ket qua ra 
 tien_tb10: 	.asciiz "------------------------------------------------------------------------"
 tien_tbLuaChon: .asciiz "\nLua chon: "
 tien_tbKQ: 	.asciiz "Ket qua: "
+tien_tbKQCau9: .asciiz "Da xuat toan bo ket qua ra file\n"
 tien_tbNhuan: .asciiz "Nam nhuan"
 tien_tbKhongNhuan: .asciiz "Khong nhuan"
 tien_tbNhapTime2: .asciiz "--Nhap time2:--\n"
@@ -223,6 +224,10 @@ main:
 	Cau9:
 		li $v0 4
 		la $a0 tien_tbKQ
+		syscall
+
+		li $v0 4
+		la $a0 tien_tbKQCau9
 		syscall
 
 		la $a0 tien_tenFileIn
