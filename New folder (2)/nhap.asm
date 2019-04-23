@@ -155,6 +155,20 @@ nhap_suu_unaccept:
 	li $v0, 4
 	la $a0, suu_tb4
 	syscall
+	#restore
+	lw $ra,($sp)
+	lw $t0, 4($sp)
+	lw $t1, 8($sp)
+	lw $t2, 12($sp)
+	lw $t3, 16($sp)
+	lw $t4, 20($sp)
+	lw $a0, 24($sp)
+	lw $a1, 28($sp)
+	lw $a2, 32($sp)
+	lw $s0, 36($sp)
+	lw $v1, 40($sp)
+	# xoa stack
+	addi $sp, $sp, 44
 	j suu_nhap
 .globl nhap_suu_accept
 nhap_suu_accept:
