@@ -32,8 +32,10 @@ Tai_CanChi:
 	# 
 	# DAU THU TUC
 	
+	# create stack	
+	addi $sp,$sp,-28 
+
 	# backup
-	addi $sp,$sp,-28
 	sw $ra,($sp)
 	sw $t0,4($sp)
 	sw $t1,8($sp)

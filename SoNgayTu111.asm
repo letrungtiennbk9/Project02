@@ -7,18 +7,19 @@
 
 Thong_SoNgayTu111:
     	#Dau thu tuc
-	addi $sp, $sp, -40
+	addi $sp, $sp, -44
 	#backup
 	sw $ra,($sp)
 	sw $t0,4($sp)
 	sw $t1, 8($sp)
-	sw $s1, 12($sp)
-	sw $s2, 16($sp)
-	sw $s3, 20($sp)
-	sw $s4, 24($sp)
-	sw $a0, 28($sp)
-	sw $a1, 32($sp)
-	sw $a2, 36($sp)
+	sw $t2, 12($sp)
+	sw $s1, 16($sp)
+	sw $s2, 20($sp)
+	sw $s3, 24($sp)
+	sw $s4, 28($sp)
+	sw $a0, 32($sp)
+	sw $a1, 36($sp)
+	sw $a2, 40($sp)
 	
 	#Than thu tuc
 	
@@ -110,14 +111,15 @@ Thong_TiepTucNeuKhongTang:
 	lw $ra,($sp)
 	lw $t0,4($sp)
 	lw $t1, 8($sp)
-	lw $s1, 12($sp)
-	lw $s2, 16($sp)
-	lw $s3, 20($sp)
-	lw $s4, 24($sp)
-	lw $a0, 28($sp)
-	lw $a1, 32($sp)
-	lw $a2, 36($sp)
+	lw $t2, 12($sp)
+	lw $s1, 16($sp)
+	lw $s2, 20($sp)
+	lw $s3, 24($sp)
+	lw $s4, 28($sp)
+	lw $a0, 32($sp)
+	lw $a1, 36($sp)
+	lw $a2, 40($sp)
 	#Xoa stack
-	addi $sp,$sp,40
+	addi $sp,$sp, 44
 	#tra ve
 	jr $ra

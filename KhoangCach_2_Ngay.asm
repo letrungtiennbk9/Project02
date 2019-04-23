@@ -9,20 +9,28 @@
 Thong_GetTime:
 
 	#Dau thu tuc
-	addi $sp, $sp, -40
+	addi $sp, $sp, -48
 	#backup
 	sw $ra,($sp)
 	sw $t0, 4($sp)
 	sw $t1, 8($sp)
 	sw $t2, 12($sp)
-	sw $s1, 16($sp)
-	sw $s2, 20($sp)
-	sw $s3, 24($sp)
-	sw $a0, 28($sp)
-	sw $a1, 32($sp)
-	sw $a2, 36($sp)
+	sw $t3, 16($sp)
+	sw $s0, 20($sp)
+	sw $s1, 24($sp)
+	sw $s2, 28($sp)
+	sw $s3, 32($sp)
+	sw $a0, 36($sp)
+	sw $a1, 40($sp)
+	sw $a2, 44($sp)
 	
 	#Than thu tuc
+	#luu lai gia tri ngay thu nhat
+	lw $t2, ($a0)
+	lw $t3, 4($a0)
+	lw $s0, 8($a0)
+	
+	#lay du lieu cho viec tinh toan ngay thu nhat
 	lw $s1, ($a0)
 	lw $s2, 4($a0)
 	lw $s3, 8($a0)
@@ -36,7 +44,7 @@ Thong_GetTime:
 	#t0 luu khoang cach tu ngay 1/1/1 cua thu nhat
 	move $t0, $v0
 	
-	#lay ngay thu 2
+	#lay ngay thu 2 de tinh toan
 	lw $s1, ($a1)
 	lw $s2, 4($a1)
 	lw $s3, 8($a1)
@@ -46,6 +54,11 @@ Thong_GetTime:
 	sw $s3, 8($a0)
 	
 	jal Thong_SoNgayTu111
+	
+	#Lay lai gia tri cho $a0: ngay thu nhat
+	sw $t2, ($a0)
+	sw $t3, 4($a0)
+	sw $s0, 8($a0)
 	
 	#t1 luu khoang cach tu ngay 1/1/1 cua thu hai
 	move $t1, $v0
@@ -66,20 +79,21 @@ Thong_TraVeKetQuaKhoangCach2Ngay:
 	#Cuoi thu tuc
 	#restore thanh ghi
 	lw $ra,($sp)
-	lw $t0,	4($sp)
+	lw $t0, 4($sp)
 	lw $t1, 8($sp)
 	lw $t2, 12($sp)
-	lw $s1, 16($sp)
-	lw $s2, 20($sp)
-	lw $s3, 24($sp)
-	lw $a0, 28($sp)
-	lw $a1, 32($sp)
-	lw $a2, 36($sp)
+	lw $t3, 16($sp)
+	lw $s0, 20($sp)
+	lw $s1, 24($sp)
+	lw $s2, 28($sp)
+	lw $s3, 32($sp)
+	lw $a0, 36($sp)
+	lw $a1, 40($sp)
+	lw $a2, 44($sp)
 	#Xoa stack
-	addi $sp,$sp,40
+	addi $sp,$sp, 48
 	#tra ve
 	jr $ra
-	
 	
 	
 	
