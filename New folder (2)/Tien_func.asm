@@ -1,24 +1,8 @@
-	.data
-tien_tbTong:	.asciiz "-----------Ban hay lua chon mot trong nhung thao tac duoi day-----------\n"
-tien_tb1: 	.asciiz "\t1.Xuat chuoi TIME theo dinh dang DD/MM/YYYY\n"
-tien_tb2: 	.asciiz "\t2.Chuyen doi chuoi TIME thanh mot trong cac dinh dang sau:\n\t\tA.MM/DD/YYYY\n\t\tB.Month DD, YYYY\n\t\tC.DD Month, YYYY\n"
-tien_tb3: 	.asciiz "\t3.Kiem tra nam trong chuoi TIME co phai nam nhuan hay khong\n"
-tien_tb4: 	.asciiz "\t4.Cho biet ngay vua nhap la ngay thu may trong tuan\n"
-tien_tb5: 	.asciiz "\t5.Cho biet ngay vua nhap la ngay thu may ke tu 1/1/1\n"
-tien_tb6: 	.asciiz "\t6.Cho biet can chi nam vua nhap\n"
-tien_tb7: 	.asciiz "\t7.Cho biet khoang thoi gian giua TIME_1 va TIME_2\n"
-tien_tb8: 	.asciiz "\t8.Cho biet 2 nam nhuan gan nhat voi nam trong chuoi TIME\n"
-tien_tb9: 	.asciiz "\t9.Nhap input tu file input.txt va xuat toan bo ket qua ra file output.txt\n"
-tien_tb10: 	.asciiz "------------------------------------------------------------------------"
-tien_tbLuaChon: .asciiz "\nLua chon: "
-tien_tbKQ: 	.asciiz "Ket qua: "
-tien_tbKQCau9: .asciiz "Da xuat toan bo ket qua ra file\n"
-tien_tbNhapTime2: .asciiz "--Nhap time2:--\n"
-tien_space: .asciiz " "
-tien_tenFileIn: .asciiz "input.txt"
-tien_tenFileOut: .asciiz "output.txt"
+.data
 fin: .asciiz "input.txt"
 fio: .asciiz "output.txt"
+tien_tbNhuan: .asciiz " la nam nhuan\r\n"
+tien_tbKhongNhuan: .asciiz " la nam thuong\r\n"
 b1: .space 100
 b2: .space 100
 b3: .space 100
@@ -61,239 +45,16 @@ tien_tbNo8_1: .asciiz "Hai nam nhuan gan nhat voi "
 tien_tbNo8_2: .asciiz " la "
 tien_tbNo8_3: .asciiz " va "
 tien_tbNo8_4: .asciiz "\r\n"
-tien_tbNhuan: .asciiz " la nam nhuan\r\n"
-tien_tbKhongNhuan: .asciiz " la nam thuong\r\n"
-tien_tbNhuan1: .asciiz "Nam nhuan\r\n"
-tien_tbKhongNhuan1: .asciiz "Nam thuong\r\n"
-Thong_sun: .asciiz "Sun"
-Thong_mon: .asciiz "Mon"
-Thong_tues: .asciiz "Tues"
-Thong_wed: .asciiz "Wed"
-Thong_thurs: .asciiz "Thurs"
-Thong_fri: .asciiz "Fri"
-Thong_sat: .asciiz "Sat"
+
+	Thong_sun: .asciiz "Sun"
+	Thong_mon: .asciiz "Mon"
+	Thong_tues: .asciiz "Tues"
+	Thong_wed: .asciiz "Wed"
+	Thong_thurs: .asciiz "Thurs"
+	Thong_fri: .asciiz "Fri"
+	Thong_sat: .asciiz "Sat"
+
 	.text
-.globl main
-main:
-	jal suu_nhap
-	move $s0 $v0
-	
-	li $v0 4
-	la $a0 tien_tbTong
-	syscall
-
-	li $v0 4
-	la $a0 tien_tb1
-	syscall
-
-	li $v0 4
-	la $a0 tien_tb2
-	syscall
-
-	li $v0 4
-	la $a0 tien_tb3
-	syscall
-
-	li $v0 4
-	la $a0 tien_tb4
-	syscall
-
-	li $v0 4
-	la $a0 tien_tb5
-	syscall
-
-	li $v0 4
-	la $a0 tien_tb6
-	syscall
-
-	li $v0 4
-	la $a0 tien_tb7
-	syscall
-
-	li $v0 4
-	la $a0 tien_tb8
-	syscall
-
-	li $v0 4
-	la $a0 tien_tb9
-	syscall
-
-	li $v0 4
-	la $a0 tien_tb10
-	syscall
-
-	li $v0 4
-	la $a0 tien_tbLuaChon
-	syscall
-
-	li $v0 5
-	syscall
-	move $s1 $v0	#s1 = option
-
-	beq $s1 1 Cau1
-	beq $s1 2 Cau2
-	beq $s1 3 Cau3
-	beq $s1 4 Cau4
-	beq $s1 5 Cau5
-	beq $s1 6 Cau6
-	beq $s1 7 Cau7
-	beq $s1 8 Cau8
-	beq $s1 9 Cau9
-
-	Cau1:
-		move $a0 $s0
-		jal hqthinh_Cau1
-		j Thoat
-
-	Cau2:
-		move $a0 $s0
-		jal hqthinh_xuat
-		j Thoat
-
-	Cau3:
-		li $v0 4
-		la $a0 tien_tbKQ
-		syscall
-
-		lw $a0 8($s0)
-		jal LaNamNhuan
-		move $t0 $v0
-		bne $t0 $0 inNhuan
-		beq $t0 $0 inKhongNhuan
-		inNhuan:
-			li $v0 4
-			la $a0 tien_tbNhuan1
-			syscall
-			j Cau3_KetThuc
-		inKhongNhuan:
-			li $v0 4
-			la $a0 tien_tbKhongNhuan1
-			syscall
-			j Cau3_KetThuc
-		Cau3_KetThuc:
-		
-		j Thoat
-
-	Cau4:
-		li $v0 4
-		la $a0 tien_tbKQ
-		syscall		
-
-		move $a0 $s0
-		jal Thong_Weekday
-		move $t0 $v0
-		
-		li $v0 4
-		move $a0 $t0
-		syscall
-
-		j Thoat
-
-	Cau5:
-		li $v0 4
-		la $a0 tien_tbKQ
-		syscall
-
-		move $a0 $s0
-		jal Thong_SoNgayTu111
-		move $t0 $v0
-
-		li $v0 1
-		move $a0 $t0
-		syscall
-
-		j Thoat
-	Cau6:
-		li $v0 4
-		la $a0 tien_tbKQ
-		syscall
-
-		lw $a0 8($s0)
-		jal Tai_CanChi
-		move $t0 $v0
-		move $t1 $v1
-
-		##In Can
-		li $v0 4
-		move $a0 $t0
-		syscall
-		
-		#In Chi
-		li $v0 4
-		move $a0 $t1
-		syscall
-
-		j Thoat
-
-	Cau7:
-		li $v0 4
-		la $a0 tien_tbNhapTime2
-		syscall
-
-		jal suu_nhap
-		move $a1 $v0
-
-		move $a0 $s0
-		jal Thong_GetTime
-		move $t0 $v0
-
-		li $v0 4
-		la $a0 tien_tbKQ
-		syscall
-
-		li $v0 1
-		move $a0 $t0
-		syscall
-
-		j Thoat
-	Cau8:
-		li $v0 4
-		la $a0 tien_tbKQ
-		syscall
-		
-		lw $a0 8($s0)
-		jal Tai_HaiNamNhuanGanNhat
-		move $t0 $v0
-		move $t1 $v1
-
-		#In nam nhuan thu nhat
-		li $v0 1
-		move $a0 $t0
-		syscall
-
-		#In space
-		li $v0 4
-		la $a0 tien_space
-		syscall
-		
-		#In nam nhuan thu 2
-		li $v0 1
-		move $a0 $t1
-		syscall
-
-		j Thoat
-	Cau9:
-		li $v0 4
-		la $a0 tien_tbKQ
-		syscall
-
-		la $a0 tien_tenFileIn
-		la $a1 tien_tenFileOut
-		jal NhapXuatFile
-
-		li $v0 4
-		la $a0 tien_tbKQCau9
-		syscall
-		
-		j Thoat
-	Thoat:
-		li $v0 10
-		syscall
-
-
-
-
-
 #Ham NhapXuatFile
 #Chuc nang: Doc ngay thang nam tu file, thuc hien cac yeu cau va xuat ra file
 #Tham so: 
@@ -1106,26 +867,26 @@ LaNamNhuan:
 	li $t1 400
 	div $a0 $t1
 	mfhi $t2
-	beq $t2 $0 LaNamNhuan_ReturnTrue
+	beq $t2 $0 ReturnTrue
 
 	li $t1 4
 	div $a0 $t1
 	mfhi $t2
 
-	beq $t2 $0 LaNamNhuan_TiepTucKT
-	j LaNamNhuan_ReturnFalse
-		LaNamNhuan_TiepTucKT:
+	beq $t2 $0 TiepTucKT
+	j ReturnFalse
+		TiepTucKT:
 			li $t1 100
 			div $a0 $t1
 			mfhi $t2
-			bne $t2 $0 LaNamNhuan_ReturnTrue
-			j LaNamNhuan_ReturnFalse
-				LaNamNhuan_ReturnTrue:
+			bne $t2 $0 ReturnTrue
+			j ReturnFalse
+				ReturnTrue:
 					li $v0 1
-				j LaNamNhuan_Thoat	
-		LaNamNhuan_ReturnFalse:
+				j Thoat	
+		ReturnFalse:
 			li $v0 0
-	LaNamNhuan_Thoat:
+	Thoat:
 	
 	lw $ra ($sp)
 	lw $a0 4($sp)

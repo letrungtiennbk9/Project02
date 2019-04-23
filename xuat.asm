@@ -1,6 +1,6 @@
 .data
 	hqthinh_kq: 		.asciiz "\nKet qua: "
-	hqthinh_menu: 		.asciiz "\n=======Menu======\nA. MM/DD/YYYY\nB. DD Month, YYYY.\nC. Month DD, YYYY\nD. Ket Thuc\n==============\nChon:"
+	hqthinh_menu: 		.asciiz "A. MM/DD/YYYY\nB. DD Month, YYYY.\nC. Month DD, YYYY\nChon: "
 	hqthinh_gach_cheo: 	.asciiz "/"
 	hqthinh_phay: 		.asciiz ", "
 	hqthinh_space: 		.asciiz " "
